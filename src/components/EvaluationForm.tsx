@@ -24,7 +24,6 @@ import {
   Save,
   FileCheck2,
   History,
-  Eye,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { SignatureUploadBox } from './SignatureUploadBox';
@@ -907,24 +906,14 @@ export const EvaluationForm: React.FC<Props> = ({
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center space-x-3 w-full md:w-auto justify-end">
-          <button
-            type="button"
-            onClick={() => onViewPrintable(currentEvaluationRecord)}
-            className="inline-flex items-center space-x-2 px-4 py-3.5 bg-slate-800/90 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-semibold tracking-wide transition border border-slate-700/80 shadow-sm"
-            title="ดูตัวอย่างแบบฟอร์มเอกสารทางการ A4"
-          >
-            <Eye className="w-4 h-4 text-blue-400" />
-            <span>ดูตัวอย่าง A4</span>
-          </button>
-
+        {/* Action Button */}
+        <div className="flex items-center w-full md:w-auto justify-end">
           <button
             type="button"
             id="btn-save-evaluation"
             onClick={handleSaveEvaluation}
             disabled={isSaving}
-            className="flex-1 md:flex-initial bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3.5 px-8 rounded-xl font-bold text-sm tracking-wide transition-all flex items-center justify-center space-x-2.5 shadow-lg shadow-blue-600/30 hover:shadow-blue-600/40 active:scale-[0.99] disabled:opacity-50"
+            className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3.5 px-8 rounded-xl font-bold text-sm tracking-wide transition-all flex items-center justify-center space-x-2.5 shadow-lg shadow-blue-600/30 hover:shadow-blue-600/40 active:scale-[0.99] disabled:opacity-50"
           >
             {isSaving ? (
               <>
