@@ -1,4 +1,4 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
+import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import {
   getAuth,
   signInWithPopup,
@@ -6,12 +6,32 @@ import {
   onAuthStateChanged,
   User,
   signOut,
+  Auth,
 } from 'firebase/auth';
-import firebaseConfig from '../../firebase-applet-config.json';
+import firebaseConfigFile from '../../firebase-applet-config.json';
 
-// Initialize Firebase App singleton safely
-export const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+// Fallback configuration if file or env is missing
+const fallbackConfig = {
+  projectId: "gen-lang-client-0848523256",
+  appId: "1:758870849852:web:78c4314b7ab01337ad8639",
+  apiKey: "AIzaSyC-PQ6EFaLMn1Z1q48K-pJ7tqRrRtuvIpw",
+  authDomain: "gen-lang-client-0848523256.firebaseapp.com",
+  storageBucket: "gen-lang-client-0848523256.firebasestorage.app",
+  messagingSenderId: "758870849852",
+};
+
+let app: FirebaseApp | null = null;
+let auth: Auth | null = null;
+
+try {
+  const finalConfig = { ...fallbackConfig, ...(firebaseConfigFile || {}) };
+  app = getApps().length > 0 ? getApp() : initializeApp(finalConfig);
+  auth = getAuth(app);
+} catch (err) {
+  console.warn('Firebase initialization error (operating in offline/local mode):', err);
+}
+
+export { app, auth };
 
 export const SCOPES = [
   'https://www.googleapis.com/auth/spreadsheets',
@@ -19,13 +39,17 @@ export const SCOPES = [
   'https://www.googleapis.com/auth/gmail.send',
 ];
 
-const provider = new GoogleAuthProvider();
-SCOPES.forEach((scope) => provider.addScope(scope));
-// Enable prompt for selecting account if needed
-provider.setCustomParameters({
-  prompt: 'consent',
-  access_type: 'offline',
-});
+let provider: GoogleAuthProvider | null = null;
+try {
+  provider = new GoogleAuthProvider();
+  SCOPES.forEach((scope) => provider?.addScope(scope));
+  provider.setCustomParameters({
+    prompt: 'consent',
+    access_type: 'offline',
+  });
+} catch (e) {
+  console.warn('GoogleAuthProvider initialization warning:', e);
+}
 
 let isSigningIn = false;
 let cachedAccessToken: string | null = null;
@@ -34,6 +58,10 @@ export const initAuth = (
   onAuthSuccess?: (user: User, token: string) => void,
   onAuthFailure?: () => void
 ) => {
+  if (!auth) {
+    if (onAuthFailure) onAuthFailure();
+    return () => {};
+  }
   return onAuthStateChanged(auth, async (user: User | null) => {
     if (user) {
       if (cachedAccessToken) {
@@ -50,6 +78,9 @@ export const initAuth = (
 };
 
 export const googleSignIn = async (): Promise<{ user: User; accessToken: string } | null> => {
+  if (!auth || !provider) {
+    throw new Error('ระบบ Google Auth ยังไม่พร้อมใช้งานบนสภาพแวดล้อมนี้ กรุณาลองใหม่อีกครั้ง');
+  }
   try {
     isSigningIn = true;
     const result = await signInWithPopup(auth, provider);
@@ -77,6 +108,8 @@ export const setAccessTokenManual = (token: string | null) => {
 };
 
 export const logout = async () => {
-  await signOut(auth);
+  if (auth) {
+    await signOut(auth);
+  }
   cachedAccessToken = null;
 };
