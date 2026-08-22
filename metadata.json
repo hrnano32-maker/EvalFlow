@@ -2,5 +2,7 @@
   "name": "แบบฟอร์มประเมินผู้ขายออนไลน์ (Supplier Evaluation)",
   "description": "ระบบแบบฟอร์มประเมินผู้ขายออนไลน์ บันทึกผลและส่งข้อมูลเข้า Google Sheets แบบอัตโนมัติ พร้อมคำนวณคะแนน เกรด และส่งอีเมลแจ้งผล",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
