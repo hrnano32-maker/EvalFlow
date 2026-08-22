@@ -69,221 +69,335 @@ export const EvaluationPrintView: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* Official Form Document (FM-PU-006-00) - Continuous, seamless official form */}
-      <div className="a4-print-sheet bg-white text-black p-4 sm:p-6 border-2 border-black rounded-none shadow-md print:shadow-none print:border-2 print:border-black text-[11px] leading-snug font-sans space-y-2">
-        {/* Document Header */}
-        <div className="flex justify-between items-center border-b-2 border-black pb-2">
-          <div className="flex items-center gap-3">
-            <div className="border-2 border-black rounded-full px-3.5 py-0.5 text-sm font-black tracking-widest uppercase">
-              NANO
-            </div>
-            <div>
-              <h1 className="text-lg font-bold tracking-tight leading-none">ใบประเมินผู้ขาย</h1>
-              <p className="text-[10px] text-gray-700 font-semibold tracking-wider mt-0.5">SUPPLIER EVALUATION FORM</p>
-            </div>
+      {/* Official Form Document (FM-PU-006-00) - Exact layout matching the official template image */}
+      <div className="a4-print-sheet bg-white text-black p-4 sm:p-5 border-2 border-black rounded-none shadow-md print:shadow-none print:border-2 print:border-black text-[10.5px] leading-tight font-sans">
+        {/* Top Header Box (Logo + Title) */}
+        <div className="border-2 border-black flex mb-2">
+          {/* Left: Red NANO Logo */}
+          <div className="w-[28%] border-r-2 border-black flex items-center justify-center p-1.5 bg-white">
+            <svg viewBox="0 0 160 65" className="w-28 h-11" aria-label="NANO Logo">
+              {/* Outer oval ring */}
+              <ellipse cx="80" cy="32.5" rx="74" ry="26" fill="none" stroke="#E11D48" strokeWidth="3" />
+              {/* Dynamic curved accent loop */}
+              <path
+                d="M 14 32 C 30 14, 70 12, 110 20 C 145 27, 150 45, 130 52 C 95 59, 38 54, 18 36"
+                fill="none"
+                stroke="#E11D48"
+                strokeWidth="2.2"
+              />
+              {/* NANO Text */}
+              <text
+                x="84"
+                y="41"
+                textAnchor="middle"
+                fill="#E11D48"
+                fontSize="22"
+                fontWeight="900"
+                fontFamily="system-ui, -apple-system, Arial, sans-serif"
+                letterSpacing="1.5"
+              >
+                NANO
+              </text>
+            </svg>
           </div>
 
-          <div className="text-right leading-tight">
-            <div className="text-xs font-bold">
-              ประเมิน ครั้งที่ : <span className="inline-block border-b border-dotted border-black px-1.5 min-w-[28px] text-center">{record.supplier.evaluationRound || '-'}</span> &nbsp;&nbsp; ปี : <span className="inline-block border-b border-dotted border-black px-1.5 min-w-[36px] text-center">{record.supplier.evaluationYear || '69'}</span>
-            </div>
-            <div className="text-[10.5px] text-gray-700 mt-0.5">
-              ประจำเดือน : <span className="font-bold text-black">{record.supplier.evaluationMonth}</span>
+          {/* Right: Title & Evaluation Round */}
+          <div className="w-[72%] flex flex-col justify-center items-center py-2 text-center">
+            <h1 className="text-xl font-extrabold tracking-wide leading-none text-black">
+              ใบประเมินผู้ขาย
+            </h1>
+            <div className="mt-2 text-xs font-bold text-black flex items-baseline justify-center">
+              <span>ประเมิน ครั้งที่</span>
+              <span className="inline-block border-b border-dotted border-black min-w-[120px] mx-2 text-center font-bold">
+                {record.supplier.evaluationRound ? `${record.supplier.evaluationRound} / ${record.supplier.evaluationYear || '69'}` : ''}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Supplier Info Table */}
-        <table className="w-full border-collapse border border-black text-[10.5px]">
-          <tbody>
-            <tr>
-              <td className="border border-black px-2 py-1 font-bold w-[24%] bg-gray-50/80">ชื่อบริษัท / โรงงาน / ห้างหุ้นส่วน :</td>
-              <td className="border border-black px-2 py-1 font-semibold w-[42%]">{record.supplier.companyName}</td>
-              <td className="border border-black px-2 py-1 font-bold w-[18%] bg-gray-50/80">ประเภทสินค้าที่ขาย :</td>
-              <td className="border border-black px-2 py-1 font-semibold">{record.supplier.productType}</td>
-            </tr>
-            <tr>
-              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">สถานที่ประกอบการ :</td>
-              <td colSpan={3} className="border border-black px-2 py-1">{record.supplier.businessAddress}</td>
-            </tr>
-            <tr>
-              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">เบอร์โทรศัพท์ :</td>
-              <td className="border border-black px-2 py-1">{record.supplier.phone}</td>
-              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">แฟกซ์ :</td>
-              <td className="border border-black px-2 py-1">{record.supplier.fax || '-'}</td>
-            </tr>
-            <tr>
-              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">ชื่อผู้ประสานงาน :</td>
-              <td className="border border-black px-2 py-1 font-medium">{record.supplier.coordinatorName}</td>
-              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">ตำแหน่ง :</td>
-              <td className="border border-black px-2 py-1">{record.supplier.position || '-'}</td>
-            </tr>
-          </tbody>
-        </table>
+        {/* Supplier Info Section with Dotted Lines */}
+        <div className="space-y-1.5 py-1 text-[10.5px]">
+          {/* Row 1 */}
+          <div className="flex items-baseline justify-between gap-4">
+            <div className="flex items-baseline flex-1 min-w-0">
+              <span className="font-bold whitespace-nowrap">ชื่อบริษัท / โรงงาน / ห้างหุ้นส่วน :</span>
+              <span className="flex-1 border-b border-dotted border-black ml-1.5 px-1 font-semibold truncate">
+                {record.supplier.companyName || ''}
+              </span>
+            </div>
+            <div className="flex items-baseline w-[40%]">
+              <span className="font-bold whitespace-nowrap">ประเภทของสินค้าที่ขาย :</span>
+              <span className="flex-1 border-b border-dotted border-black ml-1.5 px-1 font-semibold truncate">
+                {record.supplier.productType || ''}
+              </span>
+            </div>
+          </div>
 
-        {/* Section Title */}
-        <div className="border border-black bg-gray-100 text-center font-bold py-0.5 text-xs tracking-wider uppercase">
-          ✉ ข้อมูลการประเมิน
+          {/* Row 2 */}
+          <div className="flex items-baseline">
+            <span className="font-bold whitespace-nowrap">สถานที่ประกอบการ :</span>
+            <span className="flex-1 border-b border-dotted border-black ml-1.5 px-1 truncate">
+              {record.supplier.businessAddress || ''}
+            </span>
+          </div>
+
+          {/* Row 3 */}
+          <div className="flex items-baseline justify-between gap-4">
+            <div className="flex items-baseline flex-1 min-w-0">
+              <span className="font-bold whitespace-nowrap">เบอร์โทรศัพท์ :</span>
+              <span className="flex-1 border-b border-dotted border-black ml-1.5 px-1 truncate">
+                {record.supplier.phone || ''}
+              </span>
+            </div>
+            <div className="flex items-baseline w-[40%]">
+              <span className="font-bold whitespace-nowrap">แฟกซ์ :</span>
+              <span className="flex-1 border-b border-dotted border-black ml-1.5 px-1 truncate">
+                {record.supplier.fax || '-'}
+              </span>
+            </div>
+          </div>
+
+          {/* Row 4 */}
+          <div className="flex items-baseline justify-between gap-4">
+            <div className="flex items-baseline flex-1 min-w-0">
+              <span className="font-bold whitespace-nowrap">ชื่อของผู้ประสานงาน :</span>
+              <span className="flex-1 border-b border-dotted border-black ml-1.5 px-1 truncate">
+                {record.supplier.coordinatorName || ''}
+              </span>
+            </div>
+            <div className="flex items-baseline w-[40%]">
+              <span className="font-bold whitespace-nowrap">ตำแหน่ง :</span>
+              <span className="flex-1 border-b border-dotted border-black ml-1.5 px-1 truncate">
+                {record.supplier.position || '-'}
+              </span>
+            </div>
+          </div>
+
+          {/* Row 5 */}
+          <div className="flex items-baseline">
+            <span className="font-bold whitespace-nowrap">ผลการประเมินประจำเดือน :</span>
+            <span className="flex-1 border-b border-dotted border-black ml-1.5 px-1 font-semibold truncate">
+              {record.supplier.evaluationMonth || ''}
+            </span>
+          </div>
         </div>
 
-        {/* Criteria Evaluation Table */}
-        <table className="w-full border-collapse border border-black text-[10px]">
+        {/* Solid Section Divider */}
+        <div className="border-b-2 border-black my-1.5"></div>
+
+        {/* Section Header: ข้อมูลการประเมิน */}
+        <div className="text-center font-bold text-xs tracking-wider uppercase py-0.5 flex items-center justify-center gap-1.5">
+          <span>✉</span>
+          <span>ข้อมูลการประเมิน</span>
+        </div>
+
+        {/* Evaluation Criteria Table */}
+        <table className="w-full border-collapse border border-black text-[9.5px] mt-0.5">
           <thead>
-            <tr className="bg-gray-100 font-bold">
-              <th className="border border-black px-1 py-1 text-center w-[6%]">หัวข้อ</th>
-              <th className="border border-black px-1.5 py-1 text-center w-[54%]">หัวข้อการประเมิน</th>
-              <th className="border border-black px-1 py-1 text-center w-[10%]">คะแนนเต็ม</th>
-              <th className="border border-black px-1 py-1 text-center w-[10%]">ค่าที่ได้</th>
-              <th className="border border-black px-1 py-1 text-center w-[10%]">หมายเหตุ</th>
-              <th className="border border-black px-1 py-1 text-center w-[10%]">ผู้ประเมิน</th>
+            <tr className="border-b border-black font-bold">
+              <th className="border-r border-black p-1 text-center w-[5.5%]">หัวข้อ</th>
+              <th className="border-r border-black p-1 text-center w-[54.5%]">หัวข้อการประเมิน</th>
+              <th className="border-r border-black p-1 text-center w-[10%]">คะแนนเต็ม</th>
+              <th className="border-r border-black p-1 text-center w-[10%]">ค่าที่ได้</th>
+              <th className="border-r border-black p-1 text-center w-[10%]">หมายเหตุ</th>
+              <th className="p-1 text-center w-[10%]">ผู้ประเมิน</th>
             </tr>
           </thead>
           <tbody>
             {/* Category 1: ด้านคุณภาพ */}
-            <tr className="bg-gray-50/80 font-bold">
-              <td colSpan={6} className="border border-black px-2 py-0.5">ด้านคุณภาพ (45 คะแนน)</td>
+            <tr>
+              <td colSpan={6} className="border-r border-black px-2 pt-1 font-bold underline">
+                ด้านคุณภาพ
+              </td>
             </tr>
             {qualityItems.map((item) => (
-              <tr key={item.id}>
-                <td className="border border-black p-0.5 text-center font-medium">{item.id}</td>
-                <td className="border border-black px-1.5 py-0.5">{item.title}</td>
-                <td className="border border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
-                <td className="border border-black p-0.5 text-center font-bold">{item.score}</td>
-                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.remark || '-'}</td>
-                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.evaluator || 'QA'}</td>
+              <tr key={item.id} className="border-b border-dotted border-black">
+                <td className="border-r border-black p-0.5 text-center font-medium">{item.id}</td>
+                <td className="border-r border-black px-2 py-0.5">{item.title}</td>
+                <td className="border-r border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
+                <td className="border-r border-black p-0.5 text-center font-bold">{item.score}</td>
+                <td className="border-r border-black p-0.5 text-center text-[9px]">{item.remark || ''}</td>
+                <td className="p-0.5 text-center text-[9px]">{item.evaluator || 'QA'}</td>
               </tr>
             ))}
 
             {/* Category 2: ด้านการจัดส่ง */}
-            <tr className="bg-gray-50/80 font-bold">
-              <td colSpan={6} className="border border-black px-2 py-0.5">ด้านการจัดส่ง (25 คะแนน)</td>
+            <tr>
+              <td colSpan={6} className="border-r border-black px-2 pt-1 font-bold underline">
+                ด้านการจัดส่ง
+              </td>
             </tr>
             {deliveryItems.map((item) => (
-              <tr key={item.id}>
-                <td className="border border-black p-0.5 text-center font-medium">{item.id}</td>
-                <td className="border border-black px-1.5 py-0.5">{item.title}</td>
-                <td className="border border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
-                <td className="border border-black p-0.5 text-center font-bold">{item.score}</td>
-                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.remark || '-'}</td>
-                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.evaluator || 'Store'}</td>
+              <tr key={item.id} className="border-b border-dotted border-black">
+                <td className="border-r border-black p-0.5 text-center font-medium">{item.id}</td>
+                <td className="border-r border-black px-2 py-0.5">{item.title}</td>
+                <td className="border-r border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
+                <td className="border-r border-black p-0.5 text-center font-bold">{item.score}</td>
+                <td className="border-r border-black p-0.5 text-center text-[9px]">{item.remark || ''}</td>
+                <td className="p-0.5 text-center text-[9px]">{item.evaluator || 'Store'}</td>
               </tr>
             ))}
 
             {/* Category 3: ด้านส่งมอบ */}
-            <tr className="bg-gray-50/80 font-bold">
-              <td colSpan={6} className="border border-black px-2 py-0.5">ด้านส่งมอบ (30 คะแนน)</td>
+            <tr>
+              <td colSpan={6} className="border-r border-black px-2 pt-1 font-bold underline">
+                ด้านส่งมอบ
+              </td>
             </tr>
-            {performanceItems.map((item) => (
-              <tr key={item.id}>
-                <td className="border border-black p-0.5 text-center font-medium">{item.id}</td>
-                <td className="border border-black px-1.5 py-0.5">{item.title}</td>
-                <td className="border border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
-                <td className="border border-black p-0.5 text-center font-bold">{item.score}</td>
-                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.remark || '-'}</td>
-                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.evaluator || 'จัดซื้อ'}</td>
+            {performanceItems.slice(0, 3).map((item) => (
+              <tr key={item.id} className="border-b border-dotted border-black">
+                <td className="border-r border-black p-0.5 text-center font-medium">{item.id}</td>
+                <td className="border-r border-black px-2 py-0.5">{item.title}</td>
+                <td className="border-r border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
+                <td className="border-r border-black p-0.5 text-center font-bold">{item.score}</td>
+                <td className="border-r border-black p-0.5 text-center text-[9px]">{item.remark || ''}</td>
+                <td className="p-0.5 text-center text-[9px]">{item.evaluator || 'จัดซื้อ'}</td>
+              </tr>
+            ))}
+
+            {/* Category 4 / Sub: การควบคุมผู้ให้บริการภายนอกด้านกระบวนการผลิตฯ */}
+            <tr>
+              <td colSpan={6} className="border-r border-black px-2 pt-1 font-bold underline">
+                การควบคุมผู้ให้บริการภายนอกด้านกระบวนการผลิตภัณฑ์ฯ
+              </td>
+            </tr>
+            {performanceItems.slice(3).map((item) => (
+              <tr key={item.id} className="border-b border-dotted border-black last:border-b-0">
+                <td className="border-r border-black p-0.5 text-center font-medium">{item.id}</td>
+                <td className="border-r border-black px-2 py-0.5 leading-tight">{item.title}</td>
+                <td className="border-r border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
+                <td className="border-r border-black p-0.5 text-center font-bold">{item.score}</td>
+                <td className="border-r border-black p-0.5 text-center text-[9px]">{item.remark || ''}</td>
+                <td className="p-0.5 text-center text-[9px]">{item.evaluator || 'QA/จัดซื้อ'}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        {/* Summary Header Row */}
-        <div className="border border-black bg-gray-100 text-center font-bold py-0.5 text-[11px] tracking-wider uppercase">
+        {/* Summary Title Bar */}
+        <div className="border border-black text-center font-bold py-0.5 text-[10.5px] mt-2">
           สรุปผลการประเมิน [ คะแนนเต็ม 100 คะแนน ]
         </div>
 
-        {/* Score and Grade Big Box */}
-        <div className="border border-black flex text-center text-xs">
-          <div className="w-1/4 p-1 font-bold border-r border-black flex items-center justify-center bg-gray-50/80">
-            คะแนนรวมที่ได้
+        {/* Score & Grade Boxes with Light Cyan & Yellow fills matching the template */}
+        <div className="border-x border-b border-black grid grid-cols-12 text-xs">
+          <div className="col-span-3 p-1 font-bold border-r border-black flex items-center justify-center">
+            คะแนนรวมที่ได้ =
           </div>
-          <div className="w-1/4 p-1 text-lg font-black border-r border-black flex items-center justify-center">
+          {/* Light Cyan/Blue box for score */}
+          <div className="col-span-3 p-1 text-lg font-black border-r border-black flex items-center justify-center bg-[#dcfce7]/60 text-black">
             {record.totalScore}
           </div>
-          <div className="w-1/4 p-1 font-bold border-r border-black flex items-center justify-center bg-gray-50/80">
+          <div className="col-span-3 p-1 font-bold border-r border-black flex items-center justify-center">
             คะแนน / เกรด
           </div>
-          <div className="w-1/4 p-1 text-xl font-black flex items-center justify-center">
+          {/* Light Yellow box for grade */}
+          <div className="col-span-3 p-1 text-xl font-black flex items-center justify-center bg-[#fef08a]/80 text-black">
             {record.grade}
           </div>
         </div>
 
-        {/* Grade Breakdown Criteria Box & Pass/Fail Status & Signatures */}
-        <div className="border border-black grid grid-cols-12">
-          {/* Left: Grade Legend */}
-          <div className="col-span-5 border-r border-black p-1.5 text-[10px] space-y-0.5">
-            <div className="font-bold border-b border-black pb-0.5 mb-0.5">เกณฑ์การตัดเกรด</div>
-            <div className="flex justify-between px-1">
-              <span>91 - 100</span>
-              <span>=</span>
-              <span className="font-semibold">A (ดีมาก)</span>
+        {/* Bottom Section (3 Columns: Legend/Notes, Pass/Fail + Confirm, Signatures) */}
+        <div className="border-x border-b border-black grid grid-cols-12 mt-0 text-[9.5px]">
+          {/* Left Column: Grade Criteria & Notes (~50% width) */}
+          <div className="col-span-6 border-r border-black p-2 space-y-1">
+            <div className="font-bold underline text-[10px]">หมายเหตุ</div>
+            <div className="space-y-0.5 px-2">
+              <div className="flex justify-between max-w-[200px]">
+                <span className="font-medium">91 ~ 100</span>
+                <span>=</span>
+                <span className="font-bold">A (ดีมาก)</span>
+              </div>
+              <div className="flex justify-between max-w-[200px]">
+                <span className="font-medium">81 ~ 90</span>
+                <span>=</span>
+                <span className="font-bold">B (ดี)</span>
+              </div>
+              <div className="flex justify-between max-w-[200px]">
+                <span className="font-medium">71 ~ 80</span>
+                <span>=</span>
+                <span className="font-bold">C (พอใช้)</span>
+              </div>
+              <div className="flex justify-between max-w-[200px]">
+                <span className="font-medium">0 ~ 70</span>
+                <span>=</span>
+                <span className="font-bold">D* (ปรับปรุง)</span>
+              </div>
             </div>
-            <div className="flex justify-between px-1">
-              <span>81 - 90</span>
-              <span>=</span>
-              <span className="font-semibold">B (ดี)</span>
-            </div>
-            <div className="flex justify-between px-1">
-              <span>71 - 80</span>
-              <span>=</span>
-              <span className="font-semibold">C (พอใช้)</span>
-            </div>
-            <div className="flex justify-between px-1">
-              <span>0 - 70</span>
-              <span>=</span>
-              <span className="font-semibold">D* (ปรับปรุง)</span>
-            </div>
-            <div className="pt-1 text-[8.5px] text-gray-700 leading-tight">
-              * กรณีที่ทางผู้ขาย (Supplier) ได้เกรด D ติดต่อกัน 3 ครั้ง จะถูกดำเนินการออกใบเพิกถอนรายชื่อผู้ขาย AVL
+
+            <div className="pt-2 text-[8px] text-black leading-tight space-y-1">
+              <p>
+                * คะแนนเกณฑ์การประเมิน คิดเป็นค่าเฉลี่ย % ของคะแนน ในกรณีที่มีการหักคะแนน ทางฝ่ายที่เกี่ยวข้องจะทำการแจ้งให้ Action ทราบจากใบแจกแจงข้อบกพร่องต่างๆ ตามหัวข้อที่ไม่ผ่านเกณฑ์การประเมิน
+              </p>
+              <p>
+                * กรณีที่ทางผู้ขาย (Supplier) ได้เกรด D ติดต่อกัน 3 ครั้ง จะถูกดำเนินการออกใบเพิกถอนรายชื่อผู้ขาย AVL
+              </p>
             </div>
           </div>
 
-          {/* Middle: Pass / Fail Checkbox Box */}
-          <div className="col-span-3 border-r border-black flex flex-col justify-between">
-            <div className="border-b border-black p-1 flex items-center justify-between">
-              <span className="font-bold text-[10.5px]">ผ่านเกณฑ์</span>
-              <div className="w-5 h-5 border-2 border-black flex items-center justify-center font-bold text-xs">
-                {record.isPassed ? '✓' : ''}
+          {/* Middle Column: Pass / Fail & Supplier Confirm (~25% width) */}
+          <div className="col-span-3 border-r border-black flex flex-col justify-between p-1.5">
+            <div className="space-y-1.5">
+              <div className="border border-black p-1 flex items-center justify-between text-[10px] font-bold">
+                <span>ผ่านเกณฑ์</span>
+                <span className="w-4 h-4 border border-black flex items-center justify-center text-xs">
+                  {record.isPassed ? '✓' : ''}
+                </span>
+              </div>
+              <div className="border border-black p-1 flex items-center justify-between text-[10px] font-bold">
+                <span>ไม่ผ่านเกณฑ์</span>
+                <span className="w-4 h-4 border border-black flex items-center justify-center text-xs">
+                  {!record.isPassed ? '✓' : ''}
+                </span>
               </div>
             </div>
-            <div className="p-1 flex items-center justify-between bg-gray-50/50">
-              <span className="font-bold text-[10.5px]">ไม่ผ่านเกณฑ์</span>
-              <div className="w-5 h-5 border-2 border-black flex items-center justify-center font-bold text-xs">
-                {!record.isPassed ? '✓' : ''}
+
+            {/* Supplier Confirm Box */}
+            <div className="border border-black p-1.5 text-center mt-2">
+              <div className="text-[8.5px] text-gray-700 min-h-[22px] flex items-end justify-center">
+                ( {record.evaluators.supplierConfirmName || '...................................................'} )
               </div>
-            </div>
-            <div className="border-t border-black p-1 text-center text-[9.5px] bg-gray-50/80">
-              <div className="border border-dashed border-gray-400 p-0.5 min-h-[24px] flex items-center justify-center font-medium">
-                {record.evaluators.supplierConfirmName || 'ตัวแทนผู้ขาย'}
+              <div className="text-[8px] font-bold tracking-wider uppercase mt-0.5">
+                SUPPLIER CONFIRM
               </div>
-              <div className="text-[8.5px] font-bold text-gray-700 mt-0.5">SUPPLIER CONFIRM</div>
             </div>
           </div>
 
-          {/* Right: Evaluator Signatures */}
-          <div className="col-span-4 p-1.5 text-[9.5px] space-y-1 flex flex-col justify-between">
-            <div className="flex items-center justify-between border-b border-gray-300 pb-0.5">
-              <span>( {record.evaluators.purchaserName || 'เจ้าหน้าที่จัดซื้อ'} )</span>
-              <span className="text-gray-600 text-[8.5px]">เจ้าหน้าที่จัดซื้อ</span>
+          {/* Right Column: 4 Signature Lines (~25% width) */}
+          <div className="col-span-3 p-1.5 flex flex-col justify-between text-[9px]">
+            <div className="text-center py-0.5 border-b border-dotted border-gray-400">
+              <div className="text-[8px] text-gray-700">
+                ( {record.evaluators.purchaserName || '                                  '} )
+              </div>
+              <div className="font-semibold text-black mt-0.5">เจ้าหน้าที่จัดซื้อ</div>
             </div>
-            <div className="flex items-center justify-between border-b border-gray-300 pb-0.5">
-              <span>( {record.evaluators.qaName || 'ประกันคุณภาพ'} )</span>
-              <span className="text-gray-600 text-[8.5px]">ประกันคุณภาพ</span>
+
+            <div className="text-center py-0.5 border-b border-dotted border-gray-400">
+              <div className="text-[8px] text-gray-700">
+                ( {record.evaluators.qaName || '                                  '} )
+              </div>
+              <div className="font-semibold text-black mt-0.5">ประกันคุณภาพ</div>
             </div>
-            <div className="flex items-center justify-between border-b border-gray-300 pb-0.5">
-              <span>( {record.evaluators.storeOfficerName || 'เจ้าหน้าที่สโตร์'} )</span>
-              <span className="text-gray-600 text-[8.5px]">เจ้าหน้าที่สโตร์</span>
+
+            <div className="text-center py-0.5 border-b border-dotted border-gray-400">
+              <div className="text-[8px] text-gray-700">
+                ( {record.evaluators.storeOfficerName || '                                  '} )
+              </div>
+              <div className="font-semibold text-black mt-0.5">เจ้าหน้าที่สโตร์</div>
             </div>
-            <div className="flex items-center justify-between">
-              <span>( {record.evaluators.purchasingManagerName || 'ผู้จัดการฝ่ายจัดซื้อ'} )</span>
-              <span className="text-gray-700 text-[8.5px] font-bold">ผู้จัดการฝ่ายจัดซื้อ</span>
+
+            <div className="text-center py-0.5">
+              <div className="text-[8px] text-gray-700">
+                ( {record.evaluators.purchasingManagerName || '                                  '} )
+              </div>
+              <div className="font-bold text-black mt-0.5">ผู้จัดการฝ่ายจัดซื้อ</div>
             </div>
           </div>
         </div>
 
-        {/* Footer Document Stamp */}
-        <div className="flex justify-between items-center text-[9.5px] text-gray-600 pt-1 border-t border-gray-200">
-          <div>บันทึกอัตโนมัติลง Google Sheets • วันที่ออกประเมิน: {record.timestamp}</div>
-          <div className="font-mono font-bold text-black">FM-PU-006-00 : 27/03/18</div>
+        {/* Footer Document Code */}
+        <div className="text-right text-[8.5px] font-mono font-bold text-black pt-1">
+          FM-PU-006-00 : 27/03/18
         </div>
       </div>
     </div>
