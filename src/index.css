@@ -3,7 +3,7 @@
 @layer base {
   @page {
     size: A4 portrait;
-    margin: 6mm 6mm;
+    margin: 5mm 5mm 5mm 5mm;
   }
 }
 
@@ -14,8 +14,7 @@
 
   html, body {
     width: 100% !important;
-    min-height: 100% !important;
-    height: auto !important;
+    height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;
@@ -23,7 +22,7 @@
     font-size: 11px !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    overflow: visible !important;
+    overflow: hidden !important;
   }
 
   /* Force hide all navigation, headers, footers, control bars, toasts, modals */
@@ -49,9 +48,8 @@
   .a4-print-sheet {
     width: 100% !important;
     max-width: 100% !important;
-    min-height: 275mm !important;
-    margin: 0 !important;
-    padding: 3mm 4mm !important;
+    margin: 0 auto !important;
+    padding: 2.5mm 3.5mm !important;
     border: 2px solid #000000 !important;
     background: #ffffff !important;
     box-shadow: none !important;
@@ -59,9 +57,6 @@
     page-break-before: avoid !important;
     page-break-after: avoid !important;
     box-sizing: border-box !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
   }
 
   table {
@@ -74,4 +69,5 @@
     border-color: #000000 !important;
   }
 }
+
 

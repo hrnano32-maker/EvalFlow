@@ -24,7 +24,7 @@ export const EvaluationPrintView: React.FC<Props> = ({
   const performanceItems = record.criteria.filter((c) => c.category === 'performance');
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto pb-16">
+    <div className="space-y-6 max-w-4xl mx-auto pb-16 print:space-y-0 print:max-w-full print:p-0 print:m-0 print:pb-0">
       {/* Control Bar (Hidden when printing) */}
       <div className="print:hidden bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <button
@@ -70,148 +70,148 @@ export const EvaluationPrintView: React.FC<Props> = ({
       </div>
 
       {/* Official Form Document (FM-PU-006-00) - Designed to fit exact single A4 page */}
-      <div className="a4-print-sheet bg-white text-black p-6 md:p-8 border-2 border-black rounded-none shadow-md print:shadow-none print:border-2 print:border-black text-[12px] leading-snug font-sans">
+      <div className="a4-print-sheet bg-white text-black p-5 sm:p-6 border-2 border-black rounded-none shadow-md print:shadow-none print:border-2 print:border-black text-[11px] leading-tight font-sans">
         {/* Document Header */}
-        <div className="flex justify-between items-center border-b-2 border-black pb-3 mb-3">
-          <div className="flex items-center gap-3.5">
-            <div className="border-2 border-black rounded-full px-4 py-1 text-base font-black tracking-widest uppercase">
+        <div className="flex justify-between items-center border-b-2 border-black pb-2 mb-2">
+          <div className="flex items-center gap-3">
+            <div className="border-2 border-black rounded-full px-3.5 py-0.5 text-sm font-black tracking-widest uppercase">
               NANO
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight leading-none">ใบประเมินผู้ขาย</h1>
-              <p className="text-[11px] text-gray-700 font-semibold tracking-wider mt-0.5">SUPPLIER EVALUATION FORM</p>
+              <h1 className="text-lg font-bold tracking-tight leading-none">ใบประเมินผู้ขาย</h1>
+              <p className="text-[10px] text-gray-700 font-semibold tracking-wider mt-0.5">SUPPLIER EVALUATION FORM</p>
             </div>
           </div>
 
           <div className="text-right leading-tight">
-            <div className="text-sm font-bold">
-              ประเมิน ครั้งที่ : <span className="inline-block border-b border-dotted border-black px-2 min-w-[32px] text-center">{record.supplier.evaluationRound || '-'}</span> &nbsp;&nbsp; ปี : <span className="inline-block border-b border-dotted border-black px-2 min-w-[40px] text-center">{record.supplier.evaluationYear || '69'}</span>
+            <div className="text-xs font-bold">
+              ประเมิน ครั้งที่ : <span className="inline-block border-b border-dotted border-black px-1.5 min-w-[28px] text-center">{record.supplier.evaluationRound || '-'}</span> &nbsp;&nbsp; ปี : <span className="inline-block border-b border-dotted border-black px-1.5 min-w-[36px] text-center">{record.supplier.evaluationYear || '69'}</span>
             </div>
-            <div className="text-xs text-gray-700 mt-1">
+            <div className="text-[10.5px] text-gray-700 mt-0.5">
               ประจำเดือน : <span className="font-bold text-black">{record.supplier.evaluationMonth}</span>
             </div>
           </div>
         </div>
 
         {/* Supplier Info Table */}
-        <table className="w-full border-collapse border border-black mb-3 text-[11.5px]">
+        <table className="w-full border-collapse border border-black mb-2 text-[10.5px]">
           <tbody>
             <tr>
-              <td className="border border-black px-2.5 py-1.5 font-bold w-[24%] bg-gray-50/80">ชื่อบริษัท / โรงงาน / ห้างหุ้นส่วน :</td>
-              <td className="border border-black px-2.5 py-1.5 font-semibold w-[42%]">{record.supplier.companyName}</td>
-              <td className="border border-black px-2.5 py-1.5 font-bold w-[18%] bg-gray-50/80">ประเภทสินค้าที่ขาย :</td>
-              <td className="border border-black px-2.5 py-1.5 font-semibold">{record.supplier.productType}</td>
+              <td className="border border-black px-2 py-1 font-bold w-[24%] bg-gray-50/80">ชื่อบริษัท / โรงงาน / ห้างหุ้นส่วน :</td>
+              <td className="border border-black px-2 py-1 font-semibold w-[42%]">{record.supplier.companyName}</td>
+              <td className="border border-black px-2 py-1 font-bold w-[18%] bg-gray-50/80">ประเภทสินค้าที่ขาย :</td>
+              <td className="border border-black px-2 py-1 font-semibold">{record.supplier.productType}</td>
             </tr>
             <tr>
-              <td className="border border-black px-2.5 py-1.5 font-bold bg-gray-50/80">สถานที่ประกอบการ :</td>
-              <td colSpan={3} className="border border-black px-2.5 py-1.5">{record.supplier.businessAddress}</td>
+              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">สถานที่ประกอบการ :</td>
+              <td colSpan={3} className="border border-black px-2 py-1">{record.supplier.businessAddress}</td>
             </tr>
             <tr>
-              <td className="border border-black px-2.5 py-1.5 font-bold bg-gray-50/80">เบอร์โทรศัพท์ :</td>
-              <td className="border border-black px-2.5 py-1.5">{record.supplier.phone}</td>
-              <td className="border border-black px-2.5 py-1.5 font-bold bg-gray-50/80">แฟกซ์ :</td>
-              <td className="border border-black px-2.5 py-1.5">{record.supplier.fax || '-'}</td>
+              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">เบอร์โทรศัพท์ :</td>
+              <td className="border border-black px-2 py-1">{record.supplier.phone}</td>
+              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">แฟกซ์ :</td>
+              <td className="border border-black px-2 py-1">{record.supplier.fax || '-'}</td>
             </tr>
             <tr>
-              <td className="border border-black px-2.5 py-1.5 font-bold bg-gray-50/80">ชื่อผู้ประสานงาน :</td>
-              <td className="border border-black px-2.5 py-1.5 font-medium">{record.supplier.coordinatorName}</td>
-              <td className="border border-black px-2.5 py-1.5 font-bold bg-gray-50/80">ตำแหน่ง :</td>
-              <td className="border border-black px-2.5 py-1.5">{record.supplier.position || '-'}</td>
+              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">ชื่อผู้ประสานงาน :</td>
+              <td className="border border-black px-2 py-1 font-medium">{record.supplier.coordinatorName}</td>
+              <td className="border border-black px-2 py-1 font-bold bg-gray-50/80">ตำแหน่ง :</td>
+              <td className="border border-black px-2 py-1">{record.supplier.position || '-'}</td>
             </tr>
           </tbody>
         </table>
 
         {/* Section Title */}
-        <div className="border border-black bg-gray-100 text-center font-bold py-1 mb-2 text-xs tracking-wider uppercase">
+        <div className="border border-black bg-gray-100 text-center font-bold py-0.5 mb-1.5 text-xs tracking-wider uppercase">
           ✉ ข้อมูลการประเมิน
         </div>
 
         {/* Criteria Evaluation Table */}
-        <table className="w-full border-collapse border border-black mb-3 text-[11px]">
+        <table className="w-full border-collapse border border-black mb-2 text-[10px]">
           <thead>
             <tr className="bg-gray-100 font-bold">
-              <th className="border border-black px-1.5 py-1.5 text-center w-[6%]">หัวข้อ</th>
-              <th className="border border-black px-2 py-1.5 text-center w-[54%]">หัวข้อการประเมิน</th>
-              <th className="border border-black px-1.5 py-1.5 text-center w-[10%]">คะแนนเต็ม</th>
-              <th className="border border-black px-1.5 py-1.5 text-center w-[10%]">ค่าที่ได้</th>
-              <th className="border border-black px-1.5 py-1.5 text-center w-[10%]">หมายเหตุ</th>
-              <th className="border border-black px-1.5 py-1.5 text-center w-[10%]">ผู้ประเมิน</th>
+              <th className="border border-black px-1 py-1 text-center w-[6%]">หัวข้อ</th>
+              <th className="border border-black px-1.5 py-1 text-center w-[54%]">หัวข้อการประเมิน</th>
+              <th className="border border-black px-1 py-1 text-center w-[10%]">คะแนนเต็ม</th>
+              <th className="border border-black px-1 py-1 text-center w-[10%]">ค่าที่ได้</th>
+              <th className="border border-black px-1 py-1 text-center w-[10%]">หมายเหตุ</th>
+              <th className="border border-black px-1 py-1 text-center w-[10%]">ผู้ประเมิน</th>
             </tr>
           </thead>
           <tbody>
             {/* Category 1: ด้านคุณภาพ */}
             <tr className="bg-gray-50/80 font-bold">
-              <td colSpan={6} className="border border-black px-2.5 py-1">ด้านคุณภาพ (45 คะแนน)</td>
+              <td colSpan={6} className="border border-black px-2 py-0.5">ด้านคุณภาพ (45 คะแนน)</td>
             </tr>
             {qualityItems.map((item) => (
               <tr key={item.id}>
-                <td className="border border-black p-1 text-center font-medium">{item.id}</td>
-                <td className="border border-black px-2 py-1">{item.title}</td>
-                <td className="border border-black p-1 text-center font-semibold">{item.maxScore}</td>
-                <td className="border border-black p-1 text-center font-bold">{item.score}</td>
-                <td className="border border-black p-1 text-center text-[10.5px]">{item.remark || '-'}</td>
-                <td className="border border-black p-1 text-center text-[10.5px]">{item.evaluator || 'QA'}</td>
+                <td className="border border-black p-0.5 text-center font-medium">{item.id}</td>
+                <td className="border border-black px-1.5 py-0.5">{item.title}</td>
+                <td className="border border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
+                <td className="border border-black p-0.5 text-center font-bold">{item.score}</td>
+                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.remark || '-'}</td>
+                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.evaluator || 'QA'}</td>
               </tr>
             ))}
 
             {/* Category 2: ด้านการจัดส่ง */}
             <tr className="bg-gray-50/80 font-bold">
-              <td colSpan={6} className="border border-black px-2.5 py-1">ด้านการจัดส่ง (25 คะแนน)</td>
+              <td colSpan={6} className="border border-black px-2 py-0.5">ด้านการจัดส่ง (25 คะแนน)</td>
             </tr>
             {deliveryItems.map((item) => (
               <tr key={item.id}>
-                <td className="border border-black p-1 text-center font-medium">{item.id}</td>
-                <td className="border border-black px-2 py-1">{item.title}</td>
-                <td className="border border-black p-1 text-center font-semibold">{item.maxScore}</td>
-                <td className="border border-black p-1 text-center font-bold">{item.score}</td>
-                <td className="border border-black p-1 text-center text-[10.5px]">{item.remark || '-'}</td>
-                <td className="border border-black p-1 text-center text-[10.5px]">{item.evaluator || 'Store'}</td>
+                <td className="border border-black p-0.5 text-center font-medium">{item.id}</td>
+                <td className="border border-black px-1.5 py-0.5">{item.title}</td>
+                <td className="border border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
+                <td className="border border-black p-0.5 text-center font-bold">{item.score}</td>
+                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.remark || '-'}</td>
+                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.evaluator || 'Store'}</td>
               </tr>
             ))}
 
             {/* Category 3: ด้านส่งมอบ */}
             <tr className="bg-gray-50/80 font-bold">
-              <td colSpan={6} className="border border-black px-2.5 py-1">ด้านส่งมอบ (30 คะแนน)</td>
+              <td colSpan={6} className="border border-black px-2 py-0.5">ด้านส่งมอบ (30 คะแนน)</td>
             </tr>
             {performanceItems.map((item) => (
               <tr key={item.id}>
-                <td className="border border-black p-1 text-center font-medium">{item.id}</td>
-                <td className="border border-black px-2 py-1">{item.title}</td>
-                <td className="border border-black p-1 text-center font-semibold">{item.maxScore}</td>
-                <td className="border border-black p-1 text-center font-bold">{item.score}</td>
-                <td className="border border-black p-1 text-center text-[10.5px]">{item.remark || '-'}</td>
-                <td className="border border-black p-1 text-center text-[10.5px]">{item.evaluator || 'จัดซื้อ'}</td>
+                <td className="border border-black p-0.5 text-center font-medium">{item.id}</td>
+                <td className="border border-black px-1.5 py-0.5">{item.title}</td>
+                <td className="border border-black p-0.5 text-center font-semibold">{item.maxScore}</td>
+                <td className="border border-black p-0.5 text-center font-bold">{item.score}</td>
+                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.remark || '-'}</td>
+                <td className="border border-black p-0.5 text-center text-[9.5px]">{item.evaluator || 'จัดซื้อ'}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
         {/* Summary Header Row */}
-        <div className="border border-black bg-gray-100 text-center font-bold py-1 mb-2 text-xs tracking-wider uppercase">
+        <div className="border border-black bg-gray-100 text-center font-bold py-0.5 mb-1.5 text-[11px] tracking-wider uppercase">
           สรุปผลการประเมิน [ คะแนนเต็ม 100 คะแนน ]
         </div>
 
         {/* Score and Grade Big Box */}
-        <div className="border border-black flex mb-3 text-center text-xs">
-          <div className="w-1/4 p-2 font-bold border-r border-black flex items-center justify-center bg-gray-50/80">
+        <div className="border border-black flex mb-2 text-center text-xs">
+          <div className="w-1/4 p-1 font-bold border-r border-black flex items-center justify-center bg-gray-50/80">
             คะแนนรวมที่ได้
           </div>
-          <div className="w-1/4 p-2 text-xl font-black border-r border-black flex items-center justify-center">
+          <div className="w-1/4 p-1 text-lg font-black border-r border-black flex items-center justify-center">
             {record.totalScore}
           </div>
-          <div className="w-1/4 p-2 font-bold border-r border-black flex items-center justify-center bg-gray-50/80">
+          <div className="w-1/4 p-1 font-bold border-r border-black flex items-center justify-center bg-gray-50/80">
             คะแนน / เกรด
           </div>
-          <div className="w-1/4 p-2 text-2xl font-black flex items-center justify-center">
+          <div className="w-1/4 p-1 text-xl font-black flex items-center justify-center">
             {record.grade}
           </div>
         </div>
 
         {/* Grade Breakdown Criteria Box & Pass/Fail Status & Signatures */}
-        <div className="border border-black grid grid-cols-12 mb-3">
+        <div className="border border-black grid grid-cols-12 mb-2">
           {/* Left: Grade Legend */}
-          <div className="col-span-5 border-r border-black p-2 text-[11px] space-y-1">
-            <div className="font-bold border-b border-black pb-1 mb-1">เกณฑ์การตัดเกรด</div>
+          <div className="col-span-5 border-r border-black p-1.5 text-[10px] space-y-0.5">
+            <div className="font-bold border-b border-black pb-0.5 mb-0.5">เกณฑ์การตัดเกรด</div>
             <div className="flex justify-between px-1">
               <span>91 - 100</span>
               <span>=</span>
@@ -232,56 +232,56 @@ export const EvaluationPrintView: React.FC<Props> = ({
               <span>=</span>
               <span className="font-semibold">D* (ปรับปรุง)</span>
             </div>
-            <div className="pt-1.5 text-[9.5px] text-gray-700 leading-tight">
+            <div className="pt-1 text-[8.5px] text-gray-700 leading-tight">
               * กรณีที่ทางผู้ขาย (Supplier) ได้เกรด D ติดต่อกัน 3 ครั้ง จะถูกดำเนินการออกใบเพิกถอนรายชื่อผู้ขาย AVL
             </div>
           </div>
 
           {/* Middle: Pass / Fail Checkbox Box */}
           <div className="col-span-3 border-r border-black flex flex-col justify-between">
-            <div className="border-b border-black p-1.5 flex items-center justify-between">
-              <span className="font-bold text-xs">ผ่านเกณฑ์</span>
-              <div className="w-6 h-6 border-2 border-black flex items-center justify-center font-bold text-sm">
+            <div className="border-b border-black p-1 flex items-center justify-between">
+              <span className="font-bold text-[10.5px]">ผ่านเกณฑ์</span>
+              <div className="w-5 h-5 border-2 border-black flex items-center justify-center font-bold text-xs">
                 {record.isPassed ? '✓' : ''}
               </div>
             </div>
-            <div className="p-1.5 flex items-center justify-between bg-gray-50/50">
-              <span className="font-bold text-xs">ไม่ผ่านเกณฑ์</span>
-              <div className="w-6 h-6 border-2 border-black flex items-center justify-center font-bold text-sm">
+            <div className="p-1 flex items-center justify-between bg-gray-50/50">
+              <span className="font-bold text-[10.5px]">ไม่ผ่านเกณฑ์</span>
+              <div className="w-5 h-5 border-2 border-black flex items-center justify-center font-bold text-xs">
                 {!record.isPassed ? '✓' : ''}
               </div>
             </div>
-            <div className="border-t border-black p-1.5 text-center text-[10.5px] bg-gray-50/80">
-              <div className="border border-dashed border-gray-400 p-1 min-h-[30px] flex items-center justify-center font-medium">
+            <div className="border-t border-black p-1 text-center text-[9.5px] bg-gray-50/80">
+              <div className="border border-dashed border-gray-400 p-0.5 min-h-[26px] flex items-center justify-center font-medium">
                 {record.evaluators.supplierConfirmName || 'ตัวแทนผู้ขาย'}
               </div>
-              <div className="text-[9.5px] font-bold text-gray-700 mt-0.5">SUPPLIER CONFIRM</div>
+              <div className="text-[8.5px] font-bold text-gray-700 mt-0.5">SUPPLIER CONFIRM</div>
             </div>
           </div>
 
           {/* Right: Evaluator Signatures */}
-          <div className="col-span-4 p-2 text-[10.5px] space-y-1.5 flex flex-col justify-between">
-            <div className="flex items-center justify-between border-b border-gray-300 pb-1">
+          <div className="col-span-4 p-1.5 text-[9.5px] space-y-1 flex flex-col justify-between">
+            <div className="flex items-center justify-between border-b border-gray-300 pb-0.5">
               <span>( {record.evaluators.purchaserName || 'เจ้าหน้าที่จัดซื้อ'} )</span>
-              <span className="text-gray-600 text-[9.5px]">เจ้าหน้าที่จัดซื้อ</span>
+              <span className="text-gray-600 text-[8.5px]">เจ้าหน้าที่จัดซื้อ</span>
             </div>
-            <div className="flex items-center justify-between border-b border-gray-300 pb-1">
+            <div className="flex items-center justify-between border-b border-gray-300 pb-0.5">
               <span>( {record.evaluators.qaName || 'ประกันคุณภาพ'} )</span>
-              <span className="text-gray-600 text-[9.5px]">ประกันคุณภาพ</span>
+              <span className="text-gray-600 text-[8.5px]">ประกันคุณภาพ</span>
             </div>
-            <div className="flex items-center justify-between border-b border-gray-300 pb-1">
+            <div className="flex items-center justify-between border-b border-gray-300 pb-0.5">
               <span>( {record.evaluators.storeOfficerName || 'เจ้าหน้าที่สโตร์'} )</span>
-              <span className="text-gray-600 text-[9.5px]">เจ้าหน้าที่สโตร์</span>
+              <span className="text-gray-600 text-[8.5px]">เจ้าหน้าที่สโตร์</span>
             </div>
             <div className="flex items-center justify-between">
               <span>( {record.evaluators.purchasingManagerName || 'ผู้จัดการฝ่ายจัดซื้อ'} )</span>
-              <span className="text-gray-700 text-[9.5px] font-bold">ผู้จัดการฝ่ายจัดซื้อ</span>
+              <span className="text-gray-700 text-[8.5px] font-bold">ผู้จัดการฝ่ายจัดซื้อ</span>
             </div>
           </div>
         </div>
 
         {/* Footer Document Stamp */}
-        <div className="flex justify-between items-center text-[10px] text-gray-600 pt-1 border-t border-gray-200">
+        <div className="flex justify-between items-center text-[9.5px] text-gray-600 pt-0.5 border-t border-gray-200">
           <div>บันทึกอัตโนมัติลง Google Sheets • วันที่ออกประเมิน: {record.timestamp}</div>
           <div className="font-mono font-bold text-black">FM-PU-006-00 : 27/03/18</div>
         </div>
