@@ -308,22 +308,23 @@ export const HistoryDashboard: React.FC<Props> = ({
                       )}
                     </td>
                     <td className="py-4 px-5 text-right">
-                      <div className="inline-flex items-center space-x-1.5">
+                      <div className="inline-flex items-center space-x-2">
                         <button
                           type="button"
                           onClick={() => onSelectRecordToView(rec)}
-                          className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg border border-transparent hover:border-blue-100 transition shadow-2xs"
-                          title="ดูแบบฟอร์ม FM-PU-006-00 สำหรับพิมพ์"
+                          className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white rounded-lg text-xs font-semibold border border-blue-200/80 transition shadow-2xs"
+                          title="ดูแบบฟอร์ม FM-PU-006-00 สำหรับพิมพ์หรือดาวน์โหลด PDF"
                         >
-                          <Printer className="w-4 h-4" />
+                          <Printer className="w-3.5 h-3.5" />
+                          <span>พิมพ์ / PDF</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => onSelectRecordToEmail(rec)}
-                          className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg border border-transparent hover:border-blue-100 transition shadow-2xs"
+                          className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg border border-slate-200 hover:border-blue-200 transition shadow-2xs"
                           title="ส่งอีเมลแจ้งผลสรุป"
                         >
-                          <Share2 className="w-4 h-4" />
+                          <Share2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </td>

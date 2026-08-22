@@ -268,7 +268,16 @@ export default function App() {
         }
       }
     } catch (err: any) {
-      showToast(err.message || 'เข้าสู่ระบบไม่สำเร็จ', 'error');
+      console.error('Login error details:', err);
+      if (err.code === 'auth/unauthorized-domain' || err.message?.includes('unauthorized-domain')) {
+        const currentDomain = window.location.hostname;
+        showToast(
+          `โดเมน "${currentDomain}" ยังไม่ได้รับอนุญาตใน Firebase Authentication (Authorized Domains)`,
+          'error'
+        );
+      } else {
+        showToast(err.message || 'เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง', 'error');
+      }
     } finally {
       setIsLoggingIn(false);
     }
@@ -286,24 +295,34 @@ export default function App() {
     try {
       let currentToken = accessToken || (await getAccessToken());
 
+      // Always save to local state and localStorage first
+      setRecords((prev) => {
+        const updated = [newRecord, ...prev.filter((r) => r.id !== newRecord.id)];
+        return updated;
+      });
+      setSelectedRecordForPrint(newRecord);
+
       // If user is signed in & has Google Sheets config, append to Google Sheets
       if (currentToken && sheetConfig) {
-        await appendEvaluationToSheet(currentToken, sheetConfig.spreadsheetId, newRecord);
-        newRecord.syncedToSheets = true;
-        showToast(
-          `บันทึกผลการประเมินลงใน Google Sheets "${sheetConfig.spreadsheetTitle}" สำเร็จ!`,
-          'success'
-        );
+        try {
+          await appendEvaluationToSheet(currentToken, sheetConfig.spreadsheetId, newRecord);
+          newRecord.syncedToSheets = true;
+          showToast(
+            `บันทึกผลการประเมินและส่งขึ้น Google Sheets เรียบร้อยแล้ว`,
+            'success'
+          );
+        } catch (syncErr: any) {
+          console.warn('Google Sheets sync warning:', syncErr);
+          showToast('บันทึกผลประเมินในระบบสำเร็จ (ไม่สามารถซิงค์ Google Sheets ได้)', 'info');
+        }
       } else {
-        showToast('บันทึกผลการประเมินในเครื่องเรียบร้อยแล้ว', 'success');
+        showToast('บันทึกผลการประเมินลงในประวัติเรียบร้อยแล้ว', 'success');
       }
-
-      setRecords((prev) => [newRecord, ...prev]);
-      setSelectedRecordForPrint(newRecord);
-      setActiveView('history');
     } catch (err: any) {
       console.error(err);
-      showToast(err.message || 'บันทึกเข้า Google Sheets ไม่สำเร็จ', 'error');
+      setRecords((prev) => [newRecord, ...prev.filter((r) => r.id !== newRecord.id)]);
+      setSelectedRecordForPrint(newRecord);
+      showToast('บันทึกผลการประเมินลงในระบบเรียบร้อยแล้ว', 'success');
     } finally {
       setIsSaving(false);
     }
@@ -403,6 +422,7 @@ export default function App() {
             onSaveRecord={handleSaveRecord}
             isSaving={isSaving}
             onViewPrintable={handleViewPrintable}
+            onGoToHistory={() => setActiveView('history')}
           />
         )}
 

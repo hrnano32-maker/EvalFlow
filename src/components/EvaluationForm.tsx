@@ -21,6 +21,10 @@ import {
   Search,
   Check,
   Printer,
+  Save,
+  FileCheck2,
+  History,
+  Eye,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { SignatureUploadBox } from './SignatureUploadBox';
@@ -34,6 +38,7 @@ interface Props {
   onSaveRecord: (record: EvaluationRecord) => Promise<void>;
   isSaving: boolean;
   onViewPrintable: (record: EvaluationRecord) => void;
+  onGoToHistory?: () => void;
 }
 
 // Pre-defined sample suppliers for quick testing
@@ -74,13 +79,13 @@ export const EvaluationForm: React.FC<Props> = ({
   onSaveRecord,
   isSaving,
   onViewPrintable,
+  onGoToHistory,
 }) => {
   const [supplier, setSupplier] = useState<SupplierInfo>(INITIAL_SUPPLIER);
   const [criteria, setCriteria] = useState<EvaluationCriterion[]>(DEFAULT_CRITERIA);
   const [evaluators, setEvaluators] = useState<EvaluatorSignatures>(INITIAL_EVALUATORS);
   const [generalNotes, setGeneralNotes] = useState<string>('');
   const [activeCategory, setActiveCategory] = useState<'all' | 'quality' | 'delivery' | 'performance'>('all');
-  const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
   const [savedSuccessRecord, setSavedSuccessRecord] = useState<EvaluationRecord | null>(null);
   const [selectedSupplierName, setSelectedSupplierName] = useState<string>(INITIAL_SUPPLIER.companyName);
 
@@ -260,20 +265,12 @@ export const EvaluationForm: React.FC<Props> = ({
     }
   };
 
-  const handleTriggerSubmit = () => {
-    if (!accessToken) {
-      onPromptLogin();
+  const handleSaveEvaluation = async () => {
+    if (!supplier.companyName.trim()) {
+      alert('กรุณาระบุชื่อบริษัทผู้ขาย (Supplier Name) ก่อนทำการบันทึก');
       return;
     }
-    if (!sheetConfig) {
-      onOpenSheetModal();
-      return;
-    }
-    setShowConfirmSubmit(true);
-  };
 
-  const handleFinalSubmit = async () => {
-    setShowConfirmSubmit(false);
     const newRecord: EvaluationRecord = {
       id: 'EVAL_' + Date.now(),
       timestamp: new Date().toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' }),
@@ -285,7 +282,7 @@ export const EvaluationForm: React.FC<Props> = ({
       isPassed: gradeInfo.isPassed,
       notes: generalNotes,
       evaluators,
-      syncedToSheets: !!sheetConfig,
+      syncedToSheets: !!(accessToken && sheetConfig),
     };
 
     try {
@@ -915,64 +912,68 @@ export const EvaluationForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => onViewPrintable(currentEvaluationRecord)}
-            className="inline-flex items-center space-x-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold tracking-wide transition border border-slate-700 shadow-sm"
+            className="inline-flex items-center space-x-2 px-4 py-3.5 bg-slate-800/90 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-semibold tracking-wide transition border border-slate-700/80 shadow-sm"
+            title="ดูตัวอย่างแบบฟอร์มเอกสารทางการ A4"
           >
-            <Printer className="w-4 h-4 text-blue-400" />
-            <span>พิมพ์ / PDF (A4)</span>
+            <Eye className="w-4 h-4 text-blue-400" />
+            <span>ดูตัวอย่าง A4</span>
           </button>
 
           <button
             type="button"
-            onClick={handleTriggerSubmit}
+            id="btn-save-evaluation"
+            onClick={handleSaveEvaluation}
             disabled={isSaving}
-            className="flex-1 md:flex-initial bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-xl font-bold text-xs tracking-wider uppercase transition-all flex items-center justify-center space-x-2.5 shadow-lg shadow-blue-600/30 disabled:opacity-50"
+            className="flex-1 md:flex-initial bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3.5 px-8 rounded-xl font-bold text-sm tracking-wide transition-all flex items-center justify-center space-x-2.5 shadow-lg shadow-blue-600/30 hover:shadow-blue-600/40 active:scale-[0.99] disabled:opacity-50"
           >
             {isSaving ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>SYNCING TO SHEETS...</span>
+                <span>กำลังบันทึกข้อมูล...</span>
               </>
             ) : (
               <>
-                <FileSpreadsheet className="w-4 h-4" />
-                <span>บันทึกและซิงค์ GOOGLE SHEETS</span>
+                <Save className="w-4 h-4" />
+                <span>บันทึกผลประเมิน</span>
               </>
             )}
           </button>
         </div>
       </div>
 
-      {/* Post-Save Success Modal with Instant Print Option */}
+      {/* Post-Save Success Modal with Instant Print & History Options */}
       {savedSuccessRecord && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 p-7 space-y-5 text-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm animate-fadeIn font-ui">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 p-6 sm:p-7 space-y-5 text-center">
             <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto border-2 border-emerald-200 shadow-sm">
               <CheckCircle2 className="w-8 h-8" />
             </div>
 
             <div>
-              <h3 className="text-lg font-bold text-slate-900">บันทึกผลการประเมินสำเร็จ!</h3>
+              <h3 className="text-xl font-extrabold text-slate-900">บันทึกผลการประเมินสำเร็จ!</h3>
               <p className="text-xs text-slate-500 mt-1">
-                ข้อมูลถูกส่งขึ้น Google Sheets และบันทึกประวัติเรียบร้อยแล้ว
+                บันทึกเข้าสู่ระบบประวัติและสถิติเรียบร้อยแล้ว {savedSuccessRecord.syncedToSheets && '(ซิงค์เข้า Google Sheets)'}
               </p>
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-left text-xs space-y-1.5 font-sans">
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-left text-xs space-y-2 font-ui">
               <div className="flex justify-between">
-                <span className="text-slate-500 font-medium">บริษัท:</span>
-                <span className="font-bold text-slate-800">{savedSuccessRecord.supplier.companyName}</span>
+                <span className="text-slate-500 font-medium">บริษัทผู้ขาย:</span>
+                <span className="font-bold text-slate-900">{savedSuccessRecord.supplier.companyName}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500 font-medium">คะแนนรวม:</span>
-                <span className="font-bold text-blue-600 font-mono">{savedSuccessRecord.totalScore} / 100 ({savedSuccessRecord.grade})</span>
+                <span className="font-bold text-blue-600 font-mono text-sm">{savedSuccessRecord.totalScore} / 100 ({savedSuccessRecord.grade})</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500 font-medium">ผลการประเมิน:</span>
-                <span className="font-bold text-emerald-600">{savedSuccessRecord.isPassed ? 'ผ่านเกณฑ์' : 'ไม่ผ่าน'}</span>
+                <span className={`font-bold ${savedSuccessRecord.isPassed ? 'text-emerald-600' : 'text-rose-600'}`}>
+                  {savedSuccessRecord.isPassed ? '✓ ผ่านเกณฑ์การประเมิน' : '✗ ไม่ผ่านเกณฑ์'}
+                </span>
               </div>
             </div>
 
-            <div className="space-y-2 pt-2">
+            <div className="space-y-2.5 pt-2">
               <button
                 type="button"
                 onClick={() => {
@@ -980,11 +981,25 @@ export const EvaluationForm: React.FC<Props> = ({
                   setSavedSuccessRecord(null);
                   onViewPrintable(rec);
                 }}
-                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-wider rounded-lg shadow-md transition flex items-center justify-center space-x-2"
+                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md transition flex items-center justify-center space-x-2"
               >
                 <Printer className="w-4 h-4" />
                 <span>เปิดดูและพิมพ์ใบประเมิน (Print A4 / PDF)</span>
               </button>
+
+              {onGoToHistory && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSavedSuccessRecord(null);
+                    onGoToHistory();
+                  }}
+                  className="w-full py-3 text-xs font-bold uppercase tracking-wider text-slate-700 hover:bg-slate-100 rounded-xl border border-slate-200 transition flex items-center justify-center space-x-2"
+                >
+                  <History className="w-4 h-4 text-slate-500" />
+                  <span>ไปที่หน้ารายงาน ประวัติและสถิติ</span>
+                </button>
+              )}
 
               <button
                 type="button"
@@ -992,62 +1007,9 @@ export const EvaluationForm: React.FC<Props> = ({
                   setSavedSuccessRecord(null);
                   handleNewSupplierBlank();
                 }}
-                className="w-full py-2.5 text-xs font-bold uppercase tracking-wider text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 transition"
+                className="w-full py-2.5 text-xs font-medium text-slate-500 hover:text-slate-800 transition"
               >
-                ทำรายการประเมินเจ้าใหม่
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Confirmation Modal Before Writing to Google Sheets */}
-      {showConfirmSubmit && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white w-full max-w-md rounded-xl shadow-2xl border border-slate-200 p-7 space-y-5">
-            <div className="flex items-center space-x-3 text-blue-600">
-              <div className="w-10 h-10 bg-blue-50 rounded flex items-center justify-center border border-blue-100">
-                <FileSpreadsheet className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900 text-base uppercase tracking-tight">ยืนยันบันทึกผลการประเมิน</h3>
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">GOOGLE SHEETS AUTOMATION</p>
-              </div>
-            </div>
-
-            <div className="p-4 bg-slate-50 rounded border border-slate-200 text-xs space-y-2 text-slate-700 font-sans">
-              <p>
-                <strong className="text-slate-900">บริษัท:</strong> {supplier.companyName}
-              </p>
-              <p>
-                <strong className="text-slate-900">งวดประเมิน:</strong> ครั้งที่ {supplier.evaluationRound}/{supplier.evaluationYear} ({supplier.evaluationMonth})
-              </p>
-              <p>
-                <strong className="text-slate-900">คะแนนรวม:</strong> <span className="font-bold text-blue-600 font-mono">{totalScore} / 100</span> (เกรด {gradeInfo.grade})
-              </p>
-              <p>
-                <strong className="text-slate-900">ไฟล์ปลายทาง:</strong> {sheetConfig?.spreadsheetTitle}
-              </p>
-            </div>
-
-            <p className="text-xs text-slate-500 leading-relaxed">
-              เมื่อกดยืนยัน ข้อมูลคะแนน 14 ข้อ พร้อมผลการตัดเกรดจะถูกบันทึกเป็นแถวใหม่ใน Google Spreadsheet ทันที
-            </p>
-
-            <div className="flex space-x-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setShowConfirmSubmit(false)}
-                className="flex-1 py-3 text-xs font-bold uppercase tracking-wider text-slate-600 hover:bg-slate-100 rounded border border-slate-200 transition"
-              >
-                ยกเลิก
-              </button>
-              <button
-                type="button"
-                onClick={handleFinalSubmit}
-                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-wider rounded shadow-md transition"
-              >
-                ยืนยันและส่งข้อมูล
+                + ทำรายการประเมินผู้ขายรายใหม่ (ล้างฟอร์ม)
               </button>
             </div>
           </div>
