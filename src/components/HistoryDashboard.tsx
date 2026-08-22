@@ -6,6 +6,7 @@ import {
   ExternalLink,
   Printer,
   Share2,
+  Trash2,
   RefreshCw,
   TrendingUp,
   Award,
@@ -24,6 +25,7 @@ interface Props {
   onSelectRecordToView: (record: EvaluationRecord) => void;
   onSelectRecordToEmail: (record: EvaluationRecord) => void;
   onOpenSheetModal: () => void;
+  onDeleteRecord?: (id: string) => void;
 }
 
 export const HistoryDashboard: React.FC<Props> = ({
@@ -34,9 +36,11 @@ export const HistoryDashboard: React.FC<Props> = ({
   onSelectRecordToView,
   onSelectRecordToEmail,
   onOpenSheetModal,
+  onDeleteRecord,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGradeFilter, setSelectedGradeFilter] = useState<string>('ALL');
+  const [recordToDelete, setRecordToDelete] = useState<EvaluationRecord | null>(null);
 
   const filteredRecords = records.filter((r) => {
     const matchesSearch =
@@ -326,6 +330,16 @@ export const HistoryDashboard: React.FC<Props> = ({
                         >
                           <Share2 className="w-3.5 h-3.5" />
                         </button>
+                        {onDeleteRecord && (
+                          <button
+                            type="button"
+                            onClick={() => setRecordToDelete(rec)}
+                            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg border border-slate-200 hover:border-rose-200 transition shadow-2xs"
+                            title="ลบรายการประเมินนี้"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -335,6 +349,65 @@ export const HistoryDashboard: React.FC<Props> = ({
           </table>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {recordToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 p-6 sm:p-7 space-y-5 text-center">
+            <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto border-2 border-rose-200 shadow-sm">
+              <Trash2 className="w-6 h-6" />
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-slate-900">ยืนยันการลบรายการประเมิน</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                คุณต้องการลบข้อมูลผลการประเมินนี้ออกจากประวัติใช่หรือไม่?
+              </p>
+            </div>
+
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-left text-xs space-y-1.5">
+              <div className="flex justify-between">
+                <span className="text-slate-500 font-medium">บริษัทผู้ขาย:</span>
+                <span className="font-bold text-slate-900">{recordToDelete.supplier.companyName}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500 font-medium">งวดการประเมิน:</span>
+                <span className="text-slate-700 font-medium">
+                  ครั้งที่ {recordToDelete.supplier.evaluationRound}/{recordToDelete.supplier.evaluationYear} ({recordToDelete.supplier.evaluationMonth})
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500 font-medium">คะแนน / เกรด:</span>
+                <span className="font-bold text-blue-600 font-mono">
+                  {recordToDelete.totalScore}/100 (เกรด {recordToDelete.grade})
+                </span>
+              </div>
+            </div>
+
+            <div className="flex space-x-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setRecordToDelete(null)}
+                className="flex-1 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl border border-slate-200 transition"
+              >
+                ยกเลิก
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (onDeleteRecord) {
+                    onDeleteRecord(recordToDelete.id);
+                  }
+                  setRecordToDelete(null);
+                }}
+                className="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md transition"
+              >
+                ยืนยันลบรายการ
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -359,6 +359,11 @@ export default function App() {
     setActiveView('print');
   };
 
+  const handleDeleteRecord = (recordId: string) => {
+    setRecords((prev) => prev.filter((r) => r.id !== recordId));
+    showToast('ลบรายการประเมินเรียบร้อยแล้ว', 'info');
+  };
+
   const handleOpenEmailModal = (record: EvaluationRecord) => {
     if (!user || !accessToken) {
       showToast('กรุณาเข้าสู่ระบบ Google ก่อนส่งอีเมลแจ้งผล', 'error');
@@ -435,6 +440,7 @@ export default function App() {
             onSelectRecordToView={handleViewPrintable}
             onSelectRecordToEmail={handleOpenEmailModal}
             onOpenSheetModal={() => setIsSheetModalOpen(true)}
+            onDeleteRecord={handleDeleteRecord}
           />
         )}
 
