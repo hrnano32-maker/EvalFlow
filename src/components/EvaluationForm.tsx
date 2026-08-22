@@ -20,6 +20,7 @@ import {
   PlusCircle,
   Search,
   Check,
+  Printer,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -79,6 +80,7 @@ export const EvaluationForm: React.FC<Props> = ({
   const [generalNotes, setGeneralNotes] = useState<string>('');
   const [activeCategory, setActiveCategory] = useState<'all' | 'quality' | 'delivery' | 'performance'>('all');
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
+  const [savedSuccessRecord, setSavedSuccessRecord] = useState<EvaluationRecord | null>(null);
   const [selectedSupplierName, setSelectedSupplierName] = useState<string>(INITIAL_SUPPLIER.companyName);
 
   // Compute distinct known suppliers from existing records + samples
@@ -287,6 +289,7 @@ export const EvaluationForm: React.FC<Props> = ({
 
     try {
       await onSaveRecord(newRecord);
+      setSavedSuccessRecord(newRecord);
       if (gradeInfo.grade === 'A' || gradeInfo.grade === 'B') {
         confetti({
           particleCount: 80,
@@ -892,9 +895,10 @@ export const EvaluationForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => onViewPrintable(currentEvaluationRecord)}
-            className="px-4 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-bold uppercase tracking-wider transition border border-slate-700"
+            className="inline-flex items-center space-x-2 px-4 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-bold uppercase tracking-wider transition border border-slate-700"
           >
-            ดูตัวอย่างฟอร์มพิมพ์
+            <Printer className="w-4 h-4 text-blue-400" />
+            <span>พิมพ์ / PDF (A4)</span>
           </button>
 
           <button
@@ -917,6 +921,65 @@ export const EvaluationForm: React.FC<Props> = ({
           </button>
         </div>
       </div>
+
+      {/* Post-Save Success Modal with Instant Print Option */}
+      {savedSuccessRecord && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 p-7 space-y-5 text-center">
+            <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto border-2 border-emerald-200 shadow-sm">
+              <CheckCircle2 className="w-8 h-8" />
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-slate-900">บันทึกผลการประเมินสำเร็จ!</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                ข้อมูลถูกส่งขึ้น Google Sheets และบันทึกประวัติเรียบร้อยแล้ว
+              </p>
+            </div>
+
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-left text-xs space-y-1.5 font-sans">
+              <div className="flex justify-between">
+                <span className="text-slate-500 font-medium">บริษัท:</span>
+                <span className="font-bold text-slate-800">{savedSuccessRecord.supplier.companyName}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500 font-medium">คะแนนรวม:</span>
+                <span className="font-bold text-blue-600 font-mono">{savedSuccessRecord.totalScore} / 100 ({savedSuccessRecord.grade})</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500 font-medium">ผลการประเมิน:</span>
+                <span className="font-bold text-emerald-600">{savedSuccessRecord.isPassed ? 'ผ่านเกณฑ์' : 'ไม่ผ่าน'}</span>
+              </div>
+            </div>
+
+            <div className="space-y-2 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const rec = savedSuccessRecord;
+                  setSavedSuccessRecord(null);
+                  onViewPrintable(rec);
+                }}
+                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-wider rounded-lg shadow-md transition flex items-center justify-center space-x-2"
+              >
+                <Printer className="w-4 h-4" />
+                <span>เปิดดูและพิมพ์ใบประเมิน (Print A4 / PDF)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSavedSuccessRecord(null);
+                  handleNewSupplierBlank();
+                }}
+                className="w-full py-2.5 text-xs font-bold uppercase tracking-wider text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 transition"
+              >
+                ทำรายการประเมินเจ้าใหม่
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Confirmation Modal Before Writing to Google Sheets */}
       {showConfirmSubmit && (

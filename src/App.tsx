@@ -353,20 +353,22 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#f8fafc] text-[#1e293b] flex flex-col font-sans selection:bg-blue-600 selection:text-white">
       {/* Geometric Balance Header / Navbar */}
-      <Navbar
-        activeView={activeView}
-        setActiveView={setActiveView}
-        user={user}
-        sheetConfig={sheetConfig}
-        onLogin={handleLogin}
-        onLogout={handleLogout}
-        onOpenSheetModal={() => setIsSheetModalOpen(true)}
-        isLoggingIn={isLoggingIn}
-      />
+      <div className="print:hidden">
+        <Navbar
+          activeView={activeView}
+          setActiveView={setActiveView}
+          user={user}
+          sheetConfig={sheetConfig}
+          onLogin={handleLogin}
+          onLogout={handleLogout}
+          onOpenSheetModal={() => setIsSheetModalOpen(true)}
+          isLoggingIn={isLoggingIn}
+        />
+      </div>
 
       {/* Toast Notification */}
       {toast && (
-        <div className="fixed top-24 right-6 z-50 animate-slideIn">
+        <div className="fixed top-24 right-6 z-50 animate-slideIn print:hidden">
           <div
             className={`flex items-center space-x-3 px-4 py-3 rounded border text-xs font-bold uppercase tracking-wider shadow-xl max-w-sm ${
               toast.type === 'success'
@@ -390,7 +392,7 @@ export default function App() {
       )}
 
       {/* Main Content Area */}
-      <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto print:p-0 print:m-0 print:max-w-full">
         {activeView === 'form' && (
           <EvaluationForm
             accessToken={accessToken}
@@ -427,7 +429,7 @@ export default function App() {
       </main>
 
       {/* Geometric Balance Footer */}
-      <footer className="h-14 border-t border-slate-200 bg-white px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 gap-2">
+      <footer className="print:hidden h-14 border-t border-slate-200 bg-white px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 gap-2">
         <div className="flex items-center space-x-3">
           <div className="w-2 h-2 bg-emerald-500 rounded-full" />
           <span>System Online — Google Drive API v3 &bull; Sheets v4</span>
