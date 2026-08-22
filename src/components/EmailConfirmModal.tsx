@@ -68,23 +68,23 @@ export const EmailConfirmModal: React.FC<Props> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn">
-      <div className="bg-white w-full max-w-lg rounded-xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn font-ui">
+      <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="px-6 py-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/60">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-200">
+        <div className="px-6 sm:px-8 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-200">
               <Mail className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-[10px] font-bold text-blue-600 uppercase tracking-[0.2em]">NOTIFICATION</div>
+              <div className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">NOTIFICATION</div>
               <h3 className="font-bold text-slate-900 text-lg leading-tight">ยืนยันส่งอีเมลแจ้งผลประเมิน</h3>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+            className="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
           >
             <X className="w-5 h-5" />
           </button>

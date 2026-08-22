@@ -7,6 +7,30 @@
   }
 }
 
+.font-ui {
+  font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Thai', 'Prompt', system-ui, -apple-system, sans-serif;
+}
+
+.font-document {
+  font-family: 'Sarabun', 'TH Sarabun New', 'TH Sarabun PSK', serif, sans-serif;
+}
+
+/* Custom modern scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
 @media print {
   *, *::before, *::after {
     box-sizing: border-box !important;
@@ -20,6 +44,7 @@
     background: #ffffff !important;
     color: #000000 !important;
     font-size: 11px !important;
+    font-family: 'Sarabun', 'TH Sarabun New', sans-serif !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     overflow: hidden !important;
@@ -62,6 +87,7 @@
     page-break-before: avoid !important;
     page-break-after: avoid !important;
     box-sizing: border-box !important;
+    font-family: 'Sarabun', 'TH Sarabun New', sans-serif !important;
   }
 
   table {

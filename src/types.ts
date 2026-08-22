@@ -25,14 +25,19 @@ export interface SupplierInfo {
 export interface EvaluatorSignatures {
   purchaserName: string;
   purchaserDate?: string;
+  purchaserSignature?: string; // Base64 data URL
   qaName: string;
   qaDate?: string;
+  qaSignature?: string; // Base64 data URL
   storeOfficerName: string;
   storeOfficerDate?: string;
+  storeOfficerSignature?: string; // Base64 data URL
   purchasingManagerName: string;
   purchasingManagerDate?: string;
+  purchasingManagerSignature?: string; // Base64 data URL
   supplierConfirmName: string;
   supplierConfirmDate?: string;
+  supplierConfirmSignature?: string; // Base64 data URL
 }
 
 export type GradeType = 'A' | 'B' | 'C' | 'D*';

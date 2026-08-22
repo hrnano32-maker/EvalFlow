@@ -70,7 +70,7 @@ export const EvaluationPrintView: React.FC<Props> = ({
       </div>
 
       {/* Official Form Document (FM-PU-006-00) - Exact layout matching the official template image, scaled to fill A4 */}
-      <div className="a4-print-sheet bg-white text-black p-4 sm:p-6 border-2 border-black rounded-none shadow-md print:shadow-none print:border-2 print:border-black text-[11px] leading-snug font-sans">
+      <div className="a4-print-sheet bg-white text-black p-4 sm:p-6 border-2 border-black rounded-none shadow-md print:shadow-none print:border-2 print:border-black text-[11px] leading-snug font-document font-normal">
         {/* Top Header Box (Logo + Title) */}
         <div className="border-2 border-black flex mb-2.5">
           {/* Left: Red NANO Logo */}
@@ -353,8 +353,16 @@ export const EvaluationPrintView: React.FC<Props> = ({
             </div>
 
             {/* Supplier Confirm Box */}
-            <div className="border border-black p-2 text-center mt-3">
-              <div className="text-[9px] text-gray-700 min-h-[26px] flex items-end justify-center">
+            <div className="border border-black p-2 text-center mt-3 min-h-[60px] flex flex-col justify-end items-center">
+              {record.evaluators.supplierConfirmSignature && (
+                <img
+                  src={record.evaluators.supplierConfirmSignature}
+                  alt="ลายเซ็น Supplier Confirm"
+                  referrerPolicy="no-referrer"
+                  className="max-h-8 max-w-[120px] object-contain mb-0.5 filter contrast-125"
+                />
+              )}
+              <div className="text-[9px] text-gray-700 min-h-[16px] flex items-end justify-center">
                 ( {record.evaluators.supplierConfirmName || '...................................................'} )
               </div>
               <div className="text-[8.5px] font-bold tracking-wider uppercase mt-1">
@@ -365,28 +373,60 @@ export const EvaluationPrintView: React.FC<Props> = ({
 
           {/* Right Column: 4 Signature Lines (~25% width) */}
           <div className="col-span-3 p-2 flex flex-col justify-between text-[9.5px]">
-            <div className="text-center py-1 border-b border-dotted border-gray-400">
+            <div className="text-center py-1 border-b border-dotted border-gray-400 min-h-[46px] flex flex-col justify-end items-center">
+              {record.evaluators.purchaserSignature && (
+                <img
+                  src={record.evaluators.purchaserSignature}
+                  alt="ลายเซ็น เจ้าหน้าที่จัดซื้อ"
+                  referrerPolicy="no-referrer"
+                  className="max-h-7 max-w-[110px] object-contain mb-0.5 filter contrast-125"
+                />
+              )}
               <div className="text-[8.5px] text-gray-700">
                 ( {record.evaluators.purchaserName || '                                  '} )
               </div>
               <div className="font-semibold text-black mt-0.5">เจ้าหน้าที่จัดซื้อ</div>
             </div>
 
-            <div className="text-center py-1 border-b border-dotted border-gray-400">
+            <div className="text-center py-1 border-b border-dotted border-gray-400 min-h-[46px] flex flex-col justify-end items-center">
+              {record.evaluators.qaSignature && (
+                <img
+                  src={record.evaluators.qaSignature}
+                  alt="ลายเซ็น ประกันคุณภาพ"
+                  referrerPolicy="no-referrer"
+                  className="max-h-7 max-w-[110px] object-contain mb-0.5 filter contrast-125"
+                />
+              )}
               <div className="text-[8.5px] text-gray-700">
                 ( {record.evaluators.qaName || '                                  '} )
               </div>
               <div className="font-semibold text-black mt-0.5">ประกันคุณภาพ</div>
             </div>
 
-            <div className="text-center py-1 border-b border-dotted border-gray-400">
+            <div className="text-center py-1 border-b border-dotted border-gray-400 min-h-[46px] flex flex-col justify-end items-center">
+              {record.evaluators.storeOfficerSignature && (
+                <img
+                  src={record.evaluators.storeOfficerSignature}
+                  alt="ลายเซ็น เจ้าหน้าที่สโตร์"
+                  referrerPolicy="no-referrer"
+                  className="max-h-7 max-w-[110px] object-contain mb-0.5 filter contrast-125"
+                />
+              )}
               <div className="text-[8.5px] text-gray-700">
                 ( {record.evaluators.storeOfficerName || '                                  '} )
               </div>
               <div className="font-semibold text-black mt-0.5">เจ้าหน้าที่สโตร์</div>
             </div>
 
-            <div className="text-center py-1">
+            <div className="text-center py-1 min-h-[46px] flex flex-col justify-end items-center">
+              {record.evaluators.purchasingManagerSignature && (
+                <img
+                  src={record.evaluators.purchasingManagerSignature}
+                  alt="ลายเซ็น ผู้จัดการฝ่ายจัดซื้อ"
+                  referrerPolicy="no-referrer"
+                  className="max-h-7 max-w-[110px] object-contain mb-0.5 filter contrast-125"
+                />
+              )}
               <div className="text-[8.5px] text-gray-700">
                 ( {record.evaluators.purchasingManagerName || '                                  '} )
               </div>

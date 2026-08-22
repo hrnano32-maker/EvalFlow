@@ -351,8 +351,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-[#1e293b] flex flex-col font-sans selection:bg-blue-600 selection:text-white">
-      {/* Geometric Balance Header / Navbar */}
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-ui selection:bg-blue-600 selection:text-white">
+      {/* Navbar */}
       <div className="print:hidden">
         <Navbar
           activeView={activeView}
@@ -368,14 +368,14 @@ export default function App() {
 
       {/* Toast Notification */}
       {toast && (
-        <div className="fixed top-24 right-6 z-50 animate-slideIn print:hidden">
+        <div className="fixed top-20 right-6 z-50 animate-slideIn print:hidden">
           <div
-            className={`flex items-center space-x-3 px-4 py-3 rounded border text-xs font-bold uppercase tracking-wider shadow-xl max-w-sm ${
+            className={`flex items-center space-x-3 px-4 py-3 rounded-xl border text-xs font-bold uppercase tracking-wider shadow-xl max-w-sm ${
               toast.type === 'success'
-                ? 'bg-slate-900 text-white border-emerald-500/80 shadow-slate-900/20'
+                ? 'bg-slate-900/95 backdrop-blur-md text-white border-emerald-500/80 shadow-slate-900/20'
                 : toast.type === 'error'
                 ? 'bg-rose-600 text-white border-rose-700 shadow-rose-900/20'
-                : 'bg-slate-900 text-white border-slate-700'
+                : 'bg-slate-900/95 backdrop-blur-md text-white border-slate-700'
             }`}
           >
             {toast.type === 'success' ? (
@@ -383,7 +383,7 @@ export default function App() {
             ) : (
               <AlertCircle className="w-4 h-4 text-rose-300 shrink-0" />
             )}
-            <span className="flex-1 font-sans normal-case text-xs font-semibold">{toast.message}</span>
+            <span className="flex-1 font-ui normal-case text-xs font-semibold">{toast.message}</span>
             <button onClick={() => setToast(null)} className="p-1 text-slate-400 hover:text-white transition">
               <X className="w-3.5 h-3.5" />
             </button>
@@ -428,15 +428,15 @@ export default function App() {
         )}
       </main>
 
-      {/* Geometric Balance Footer */}
-      <footer className="print:hidden h-14 border-t border-slate-200 bg-white px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 gap-2">
+      {/* Modern Clean Footer */}
+      <footer className="print:hidden h-14 border-t border-slate-200/90 bg-white/80 backdrop-blur-md px-6 sm:px-12 flex flex-col sm:flex-row items-center justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400 gap-2">
         <div className="flex items-center space-x-3">
-          <div className="w-2 h-2 bg-emerald-500 rounded-full" />
+          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
           <span>System Online — Google Drive API v3 &bull; Sheets v4</span>
         </div>
-        <div className="flex items-center space-x-6 sm:space-x-10 text-slate-500">
-          <span>FM-PU-006-00</span>
-          <span>© 2026 EvalFlow Engine</span>
+        <div className="flex items-center space-x-6 sm:space-x-10 text-slate-500 font-medium">
+          <span className="font-mono">FM-PU-006-00</span>
+          <span>© 2026 Supplier Evaluation System</span>
         </div>
       </footer>
 

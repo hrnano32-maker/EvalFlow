@@ -23,6 +23,7 @@ import {
   Printer,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { SignatureUploadBox } from './SignatureUploadBox';
 
 interface Props {
   accessToken: string | null;
@@ -322,50 +323,50 @@ export const EvaluationForm: React.FC<Props> = ({
       : criteria.filter((c) => c.category === activeCategory);
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto pb-28">
-      {/* Geometric Balance Top Section: Hero Grid & Live Destination Status */}
+    <div className="space-y-8 max-w-5xl mx-auto pb-28 font-ui">
+      {/* Modern Executive Hero Grid & Live Destination Status */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Left Hero Card */}
-        <div className="lg:col-span-7 bg-white p-7 sm:p-8 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between space-y-6">
+        <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col justify-between space-y-6">
           <div>
-            <div className="flex items-center space-x-2 text-[10px] font-bold text-blue-600 uppercase tracking-[0.2em] mb-2.5">
-              <span>FM-PU-006-00</span>
-              <span>&bull;</span>
-              <span>SUPPLIER EVALUATION</span>
+            <div className="flex items-center space-x-2 text-[11px] font-bold text-blue-600 uppercase tracking-widest mb-2">
+              <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-200/80 font-mono">FM-PU-006-00</span>
+              <span className="text-slate-300">&bull;</span>
+              <span className="text-slate-500 font-medium">SUPPLIER EVALUATION</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-light text-slate-900 leading-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
               แบบฟอร์มประเมินผู้ขาย<br />
-              <span className="font-bold text-slate-900">ระบบบันทึก Google Sheets อัตโนมัติ</span>
+              <span className="text-blue-600">บันทึกผลและซิงค์ Google Sheets</span>
             </h2>
-            <p className="text-slate-500 text-xs sm:text-sm mt-3 leading-relaxed">
-              ประเมินตามเกณฑ์มาตรฐาน 14 ข้อ (100 คะแนนเต็ม) ระบบจะคำนวณคะแนนรวม ตัดเกรด A/B/C/D และซิงค์ข้อมูลเข้า Google Spreadsheet แบบทันที
+            <p className="text-slate-500 text-xs sm:text-sm mt-2.5 leading-relaxed">
+              ประเมินตามเกณฑ์มาตรฐาน 14 ข้อ (100 คะแนนเต็ม) ระบบคำนวณคะแนนรวม ตัดเกรด A/B/C/D อัตโนมัติ พร้อมส่งออกฟอร์มทางการ A4
             </p>
           </div>
 
           {/* Quick PDF Presets */}
           <div className="pt-4 border-t border-slate-100">
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-2.5">
-              โหลดข้อมูลตัวอย่างจากเอกสารจริง (PDF Reference):
+            <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+              โหลดข้อมูลตัวอย่างจากเอกสารจริง (Presets):
             </div>
             <div className="flex items-center gap-2 flex-wrap">
               <button
                 type="button"
                 onClick={() => loadPreset(1)}
-                className="px-3 py-1.5 text-xs font-bold bg-slate-50 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-slate-700 rounded border border-slate-200 transition-all uppercase tracking-wider shadow-2xs"
+                className="px-3 py-1.5 text-xs font-semibold bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 text-slate-700 rounded-lg border border-slate-200 transition shadow-2xs"
               >
                 ครั้งที่ 1 (ม.ค. 91 คะแนน)
               </button>
               <button
                 type="button"
                 onClick={() => loadPreset(2)}
-                className="px-3 py-1.5 text-xs font-bold bg-slate-50 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-slate-700 rounded border border-slate-200 transition-all uppercase tracking-wider shadow-2xs"
+                className="px-3 py-1.5 text-xs font-semibold bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 text-slate-700 rounded-lg border border-slate-200 transition shadow-2xs"
               >
                 ครั้งที่ 2 (ก.พ. 93 คะแนน)
               </button>
               <button
                 type="button"
                 onClick={() => loadPreset(5)}
-                className="px-3 py-1.5 text-xs font-bold bg-slate-50 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 text-slate-700 rounded border border-slate-200 transition-all uppercase tracking-wider shadow-2xs"
+                className="px-3 py-1.5 text-xs font-semibold bg-slate-50 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 text-slate-700 rounded-lg border border-slate-200 transition shadow-2xs"
               >
                 ครั้งที่ 5 (พ.ค. 94 คะแนน)
               </button>
@@ -373,15 +374,15 @@ export const EvaluationForm: React.FC<Props> = ({
           </div>
         </div>
 
-        {/* Right Destination File Card (Geometric Balance Style) */}
-        <div className="lg:col-span-5 bg-slate-900 p-7 rounded-xl text-white shadow-2xl border border-slate-800 flex flex-col justify-between space-y-6">
+        {/* Right Destination File Card */}
+        <div className="lg:col-span-5 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-6 sm:p-7 rounded-2xl text-white shadow-xl border border-slate-800 flex flex-col justify-between space-y-6">
           <div>
             <div className="flex justify-between items-center mb-4">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
-                Destination File
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                DESTINATION FILE
               </span>
-              <div className="flex items-center space-x-1.5 text-emerald-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="flex items-center space-x-1.5 text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded-full border border-emerald-800/80">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-[10px] font-bold uppercase tracking-wider">Live Sync</span>
               </div>
             </div>
@@ -391,16 +392,16 @@ export const EvaluationForm: React.FC<Props> = ({
                 <FileSpreadsheet className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>{sheetConfig ? sheetConfig.spreadsheetTitle : 'ยังไม่ได้เชื่อมโยง Google Sheet'}</span>
               </div>
-              <div className="text-[11px] text-slate-500 font-mono truncate">
-                {sheetConfig ? `spreadsheets/d/${sheetConfig.spreadsheetId}` : 'กดปุ่มเพื่อสร้างหรือเลือก Sheet'}
+              <div className="text-[11px] text-slate-400 font-mono truncate">
+                {sheetConfig ? `ID: ${sheetConfig.spreadsheetId}` : 'กดปุ่มเพื่อสร้างหรือเลือก Sheet'}
               </div>
             </div>
           </div>
 
-          <div className="pt-5 border-t border-slate-800 flex items-center justify-between">
+          <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between">
             <div>
-              <div className="text-[10px] text-slate-400 uppercase tracking-widest">CRITERIA COUNT</div>
-              <div className="text-xl font-mono font-bold text-emerald-400">14 หัวข้อ</div>
+              <div className="text-[10px] text-slate-400 uppercase tracking-widest">เกณฑ์ประเมิน</div>
+              <div className="text-lg font-mono font-bold text-emerald-400">14 หัวข้อ (100 คะแนน)</div>
             </div>
 
             {sheetConfig ? (
@@ -408,16 +409,16 @@ export const EvaluationForm: React.FC<Props> = ({
                 href={sheetConfig.spreadsheetUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="px-3.5 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold uppercase tracking-wider transition flex items-center space-x-2"
+                className="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold tracking-wide transition flex items-center space-x-2 shadow-2xs"
               >
-                <span>เปิดดู Sheet</span>
-                <ExternalLink className="w-3 h-3 text-emerald-400" />
+                <span>เปิดชีต</span>
+                <ExternalLink className="w-3.5 h-3.5 text-emerald-400" />
               </a>
             ) : (
               <button
                 type="button"
                 onClick={onOpenSheetModal}
-                className="px-3.5 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-wider transition shadow-sm"
+                className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold tracking-wide transition shadow-sm"
               >
                 เชื่อมต่อ Sheet
               </button>
@@ -427,28 +428,28 @@ export const EvaluationForm: React.FC<Props> = ({
       </div>
 
       {/* Section 01: Supplier Info */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 sm:p-8 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-4 gap-3">
+      <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-6 sm:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-3">
           <div className="flex items-center space-x-3.5">
-            <div className="w-8 h-8 rounded bg-blue-50 text-blue-600 font-mono text-sm font-bold flex items-center justify-center shrink-0 border border-blue-100">
+            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 font-mono text-sm font-bold flex items-center justify-center shrink-0 border border-blue-200/80">
               01
             </div>
             <div>
-              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900">
+              <h3 className="font-bold text-sm text-slate-900 tracking-tight">
                 ข้อมูลผู้ขายและรอบการประเมิน (Supplier Information)
               </h3>
-              <p className="text-[11px] text-slate-400">ระบุชื่อสถานประกอบการ รายละเอียดสินค้า และงวดที่ทำการประเมิน</p>
+              <p className="text-xs text-slate-400 mt-0.5">ระบุชื่อสถานประกอบการ รายละเอียดสินค้า และงวดที่ทำการประเมิน</p>
             </div>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <button
               type="button"
               onClick={handleNewSupplierBlank}
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold uppercase tracking-wider transition shadow-2xs"
+              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition shadow-2xs"
               title="ล้างฟอร์มเพื่อกรอกข้อมูลผู้ขายเจ้าใหม่"
             >
               <PlusCircle className="w-3.5 h-3.5" />
-              <span>+ กรอก Supplier เจ้าใหม่</span>
+              <span>+ กรอกผู้ขายเจ้าใหม่</span>
             </button>
             <div className="hidden sm:block text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest pl-2">
               FM-PU-006-00
@@ -457,21 +458,21 @@ export const EvaluationForm: React.FC<Props> = ({
         </div>
 
         {/* Quick Supplier Switcher / Directory Bar */}
-        <div className="p-4 rounded-lg bg-slate-50/80 border border-slate-200 space-y-2">
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+            <label className="text-xs font-bold text-slate-600 flex items-center gap-1.5">
               <Building2 className="w-3.5 h-3.5 text-blue-600" />
-              <span>เลือกผู้ขายจากประวัติ / รายชื่อที่มีในระบบ ({knownSuppliers.length} รายการ):</span>
+              <span>เลือกผู้ขายจากประวัติในระบบ ({knownSuppliers.length} รายการ):</span>
             </label>
             <span className="text-[11px] text-slate-400">
-              หรือพิมพ์ชื่อผู้ขายเจ้าใหม่ในช่องด้านล่างได้โดยตรง
+              หรือพิมพ์ชื่อผู้ขายเจ้าใหม่ในช่องด้านล่างได้ทันที
             </span>
           </div>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <select
               value={selectedSupplierName}
               onChange={(e) => handleSelectExistingSupplier(e.target.value)}
-              className="flex-1 px-3.5 py-2 rounded border border-slate-200 bg-white text-xs font-medium text-slate-800 focus:ring-2 focus:ring-blue-600 outline-none shadow-2xs"
+              className="flex-1 px-3.5 py-2.5 rounded-lg border border-slate-200 bg-white text-xs font-medium text-slate-800 focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none shadow-2xs"
             >
               <option value="__NEW__">-- [+] กรอกผู้ขายเจ้าใหม่ (Blank Form) --</option>
               {knownSuppliers.map((s, idx) => (
@@ -484,17 +485,17 @@ export const EvaluationForm: React.FC<Props> = ({
             <button
               type="button"
               onClick={handleNewSupplierBlank}
-              className="px-3.5 py-2 rounded bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold uppercase tracking-wider transition whitespace-nowrap shadow-2xs"
+              className="px-4 py-2 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition whitespace-nowrap shadow-2xs"
             >
-              ล้างฟอร์ม (Clear)
+              ล้างฟอร์ม
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
           <div className="md:col-span-2 space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
-              ชื่อบริษัท / โรงงาน / ห้างหุ้นส่วน *
+            <label className="text-xs font-semibold text-slate-600 block">
+              ชื่อบริษัท / โรงงาน / ห้างหุ้นส่วน <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
@@ -504,26 +505,26 @@ export const EvaluationForm: React.FC<Props> = ({
                 setSupplier({ ...supplier, companyName: e.target.value });
                 setSelectedSupplierName('__CUSTOM__');
               }}
-              placeholder="เช่น บริษัท ตัวอย่าง อุตสาหกรรม จำกัด"
-              className="w-full px-4 py-3 rounded border border-slate-200 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-xs font-medium text-slate-900"
+              placeholder="เช่น บริษัท สยาม พรีซิชั่น เอ็นจิเนียริ่ง จำกัด"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-2xs font-medium text-slate-900 placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
-              ประเภทของสินค้าที่ขาย *
+            <label className="text-xs font-semibold text-slate-600 block">
+              ประเภทของสินค้าที่ขาย <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
               value={supplier.productType}
               onChange={(e) => setSupplier({ ...supplier, productType: e.target.value })}
               placeholder="เช่น STAY, NUT, ชิ้นส่วนโลหะ"
-              className="w-full px-4 py-3 rounded border border-slate-200 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-xs font-medium text-slate-900"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-2xs font-medium text-slate-900 placeholder:text-slate-400"
             />
           </div>
 
           <div className="md:col-span-3 space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
+            <label className="text-xs font-semibold text-slate-600 block">
               สถานที่ประกอบการ
             </label>
             <input
@@ -531,12 +532,12 @@ export const EvaluationForm: React.FC<Props> = ({
               value={supplier.businessAddress}
               onChange={(e) => setSupplier({ ...supplier, businessAddress: e.target.value })}
               placeholder="ที่อยู่ เลขที่ ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด"
-              className="w-full px-4 py-3 rounded border border-slate-200 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-xs font-medium text-slate-900"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-2xs font-medium text-slate-900 placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
+            <label className="text-xs font-semibold text-slate-600 block">
               เบอร์โทรศัพท์
             </label>
             <input
@@ -544,12 +545,12 @@ export const EvaluationForm: React.FC<Props> = ({
               value={supplier.phone}
               onChange={(e) => setSupplier({ ...supplier, phone: e.target.value })}
               placeholder="02-xxx-xxxx"
-              className="w-full px-4 py-3 rounded border border-slate-200 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-xs font-medium text-slate-900"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-2xs font-medium text-slate-900 placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
+            <label className="text-xs font-semibold text-slate-600 block">
               เบอร์แฟกซ์
             </label>
             <input
@@ -557,12 +558,12 @@ export const EvaluationForm: React.FC<Props> = ({
               value={supplier.fax}
               onChange={(e) => setSupplier({ ...supplier, fax: e.target.value })}
               placeholder="02-xxx-xxxx"
-              className="w-full px-4 py-3 rounded border border-slate-200 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-xs font-medium text-slate-900"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-2xs font-medium text-slate-900 placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
+            <label className="text-xs font-semibold text-slate-600 block">
               ชื่อผู้ประสานงาน
             </label>
             <input
@@ -570,74 +571,74 @@ export const EvaluationForm: React.FC<Props> = ({
               value={supplier.coordinatorName}
               onChange={(e) => setSupplier({ ...supplier, coordinatorName: e.target.value })}
               placeholder="ชื่อ-นามสกุล ผู้ติดต่อ"
-              className="w-full px-4 py-3 rounded border border-slate-200 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-xs font-medium text-slate-900"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-2xs font-medium text-slate-900 placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
-              ประเมิน ครั้งที่ *
+            <label className="text-xs font-semibold text-slate-600 block">
+              ประเมิน ครั้งที่ <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
               value={supplier.evaluationRound}
               onChange={(e) => setSupplier({ ...supplier, evaluationRound: e.target.value })}
-              className="w-full px-4 py-3 rounded border border-slate-200 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-xs text-center font-bold text-slate-900"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-2xs text-center font-bold text-slate-900"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
-              ปีที่ประเมิน (พ.ศ.) *
+            <label className="text-xs font-semibold text-slate-600 block">
+              ปีที่ประเมิน (พ.ศ.) <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
               value={supplier.evaluationYear}
               onChange={(e) => setSupplier({ ...supplier, evaluationYear: e.target.value })}
               placeholder="69 หรือ 2569"
-              className="w-full px-4 py-3 rounded border border-slate-200 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-xs text-center font-bold text-slate-900"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-2xs text-center font-bold text-slate-900"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
-              ผลการประเมินประจำเดือน *
+            <label className="text-xs font-semibold text-slate-600 block">
+              ผลการประเมินประจำเดือน <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
               value={supplier.evaluationMonth}
               onChange={(e) => setSupplier({ ...supplier, evaluationMonth: e.target.value })}
-              placeholder="เช่น มกราคม 2569"
-              className="w-full px-4 py-3 rounded border border-slate-200 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-xs font-medium text-slate-900"
+              placeholder="เช่น พฤษภาคม 2569"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200/90 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all outline-none bg-white text-sm shadow-2xs font-medium text-slate-900"
             />
           </div>
         </div>
       </div>
 
       {/* Section 02: Criteria Evaluation */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
         {/* Category Header & Filter Tabs */}
-        <div className="p-6 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4 bg-slate-50/50">
+        <div className="p-6 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4 bg-slate-50/70">
           <div className="flex items-center space-x-3.5">
-            <div className="w-8 h-8 rounded bg-blue-50 text-blue-600 font-mono text-sm font-bold flex items-center justify-center shrink-0 border border-blue-100">
+            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 font-mono text-sm font-bold flex items-center justify-center shrink-0 border border-blue-200/80">
               02
             </div>
             <div>
-              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900">
+              <h3 className="font-bold text-sm text-slate-900 tracking-tight">
                 ข้อมูลการประเมิน (14 หัวข้อ / 100 คะแนนเต็ม)
               </h3>
-              <p className="text-[11px] text-slate-400">คลิกปรับคะแนน เลื่อนสไลเดอร์ หรือใส่หมายเหตุเพิ่มเติมในแต่ละข้อ</p>
+              <p className="text-xs text-slate-400 mt-0.5">กดปุ่ม +/- หรือเลื่อนแถบสไลเดอร์เพื่อระบุคะแนนในแต่ละข้อ</p>
             </div>
           </div>
 
           {/* Category Tabs */}
-          <div className="flex gap-1 p-1 bg-slate-200/70 rounded-lg text-xs font-bold uppercase tracking-wider">
+          <div className="flex gap-1 p-1 bg-slate-200/70 rounded-xl text-xs font-semibold">
             <button
               type="button"
               onClick={() => setActiveCategory('all')}
-              className={`px-3 py-1.5 rounded transition ${
+              className={`px-3 py-1.5 rounded-lg transition-all ${
                 activeCategory === 'all'
-                  ? 'bg-white text-blue-600 shadow-xs'
+                  ? 'bg-white text-blue-700 shadow-2xs font-bold'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -646,9 +647,9 @@ export const EvaluationForm: React.FC<Props> = ({
             <button
               type="button"
               onClick={() => setActiveCategory('quality')}
-              className={`px-3 py-1.5 rounded transition ${
+              className={`px-3 py-1.5 rounded-lg transition-all ${
                 activeCategory === 'quality'
-                  ? 'bg-white text-blue-600 shadow-xs'
+                  ? 'bg-white text-blue-700 shadow-2xs font-bold'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -657,9 +658,9 @@ export const EvaluationForm: React.FC<Props> = ({
             <button
               type="button"
               onClick={() => setActiveCategory('delivery')}
-              className={`px-3 py-1.5 rounded transition ${
+              className={`px-3 py-1.5 rounded-lg transition-all ${
                 activeCategory === 'delivery'
-                  ? 'bg-white text-blue-600 shadow-xs'
+                  ? 'bg-white text-blue-700 shadow-2xs font-bold'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -668,9 +669,9 @@ export const EvaluationForm: React.FC<Props> = ({
             <button
               type="button"
               onClick={() => setActiveCategory('performance')}
-              className={`px-3 py-1.5 rounded transition ${
+              className={`px-3 py-1.5 rounded-lg transition-all ${
                 activeCategory === 'performance'
-                  ? 'bg-white text-blue-600 shadow-xs'
+                  ? 'bg-white text-blue-700 shadow-2xs font-bold'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -684,48 +685,49 @@ export const EvaluationForm: React.FC<Props> = ({
           {filteredCriteria.map((c) => (
             <div
               key={c.id}
-              className="p-4 hover:bg-slate-50/80 rounded-lg transition-all space-y-3 border border-transparent hover:border-slate-200"
+              className="p-4 hover:bg-slate-50/90 rounded-xl transition-all space-y-3 border border-transparent hover:border-slate-200/70"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-start space-x-3.5">
-                  <div className="text-blue-600 font-mono text-xs font-bold bg-blue-50 w-7 h-7 flex items-center justify-center rounded border border-blue-100 shrink-0 mt-0.5">
+                  <div className="text-blue-700 font-mono text-xs font-bold bg-blue-50 w-7 h-7 flex items-center justify-center rounded-lg border border-blue-200/70 shrink-0 mt-0.5">
                     {c.id < 10 ? `0${c.id}` : c.id}
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900 leading-snug">
+                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
                       {c.title}
                     </h4>
-                    <span className="text-[11px] text-slate-400">
-                      {c.categoryTitle} &bull; ผู้ประเมิน:{' '}
-                      <span className="font-semibold text-slate-700">{c.evaluator}</span>
-                    </span>
+                    <div className="text-[11.5px] text-slate-400 mt-0.5 flex items-center gap-1.5 flex-wrap">
+                      <span className="font-medium text-slate-500">{c.categoryTitle}</span>
+                      <span>&bull;</span>
+                      <span>ผู้ประเมิน: <span className="font-semibold text-slate-700">{c.evaluator}</span></span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Score Controls */}
                 <div className="flex items-center space-x-3 self-end sm:self-auto shrink-0">
-                  <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded border border-slate-200">
+                  <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
                     <button
                       type="button"
                       onClick={() => handleScoreChange(c.id, c.score - 1)}
                       disabled={c.score <= 0}
-                      className="w-7 h-7 rounded bg-white text-slate-700 font-bold flex items-center justify-center hover:bg-slate-200 disabled:opacity-30 shadow-2xs border border-slate-200 text-xs"
+                      className="w-7 h-7 rounded bg-white text-slate-700 font-bold flex items-center justify-center hover:bg-slate-200 disabled:opacity-30 shadow-2xs border border-slate-200 text-xs transition"
                     >
                       -
                     </button>
-                    <span className="w-10 text-center font-mono font-bold text-sm text-blue-600">
+                    <span className="w-10 text-center font-mono font-bold text-sm text-blue-700">
                       {c.score}
                     </span>
                     <button
                       type="button"
                       onClick={() => handleScoreChange(c.id, c.score + 1)}
                       disabled={c.score >= c.maxScore}
-                      className="w-7 h-7 rounded bg-white text-slate-700 font-bold flex items-center justify-center hover:bg-slate-200 disabled:opacity-30 shadow-2xs border border-slate-200 text-xs"
+                      className="w-7 h-7 rounded bg-white text-slate-700 font-bold flex items-center justify-center hover:bg-slate-200 disabled:opacity-30 shadow-2xs border border-slate-200 text-xs transition"
                     >
                       +
                     </button>
                   </div>
-                  <span className="text-[11px] font-mono font-bold text-slate-400 w-14 text-right">
+                  <span className="text-xs font-mono font-bold text-slate-400 w-14 text-right">
                     /{c.maxScore} PTS
                   </span>
                 </div>
@@ -740,19 +742,19 @@ export const EvaluationForm: React.FC<Props> = ({
                     max={c.maxScore}
                     value={c.score}
                     onChange={(e) => handleScoreChange(c.id, Number(e.target.value))}
-                    className="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 rounded"
+                    className="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
                   />
-                  <div className="text-[11px] font-mono font-bold text-slate-500 shrink-0 w-12 text-right">
+                  <div className="text-xs font-mono font-bold text-slate-500 shrink-0 w-12 text-right">
                     {((c.score / c.maxScore) * 100).toFixed(0)}%
                   </div>
                 </div>
                 <div className="md:col-span-5">
                   <input
                     type="text"
-                    placeholder="หมายเหตุเพิ่มเติม..."
+                    placeholder="หมายเหตุเพิ่มเติมสำหรับข้อนี้..."
                     value={c.remark || ''}
                     onChange={(e) => handleRemarkChange(c.id, e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs rounded border border-slate-200 bg-white text-slate-800 outline-none focus:ring-1 focus:ring-blue-600 shadow-2xs placeholder:text-slate-400"
+                    className="w-full px-3 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-800 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent shadow-2xs placeholder:text-slate-400 font-normal"
                   />
                 </div>
               </div>
@@ -762,73 +764,91 @@ export const EvaluationForm: React.FC<Props> = ({
       </div>
 
       {/* Section 03: Signatures & Notes */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 sm:p-8 space-y-6">
-        <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+      <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-6 sm:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
           <div className="flex items-center space-x-3.5">
-            <div className="w-8 h-8 rounded bg-blue-50 text-blue-600 font-mono text-sm font-bold flex items-center justify-center shrink-0 border border-blue-100">
+            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 font-mono text-sm font-bold flex items-center justify-center shrink-0 border border-blue-200/80">
               03
             </div>
             <div>
-              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-900">
-                ผู้ประเมินและการลงนาม (FM-PU-006-00)
+              <h3 className="font-bold text-sm text-slate-900 tracking-tight">
+                ผู้ประเมินและการลงนาม / อัปโหลดลายเซ็น (FM-PU-006-00)
               </h3>
-              <p className="text-[11px] text-slate-400">ระบุชื่อเจ้าหน้าที่ผู้รับผิดชอบ 4 ฝ่ายตามแบบฟอร์มทางการ</p>
+              <p className="text-xs text-slate-400 mt-0.5">
+                สามารถพิมพ์ชื่อและอัปโหลดไฟล์รูปลายเซ็น (PNG/JPG) เพื่อนำไปแสดงในแบบฟอร์มเอกสารทางการ A4 ได้โดยอัตโนมัติ
+              </p>
             </div>
+          </div>
+          <div className="text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 self-start sm:self-auto">
+            ✓ รองรับลากไฟล์วาง (Drag & Drop)
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
-              เจ้าหน้าที่จัดซื้อ
-            </label>
-            <input
-              type="text"
-              value={evaluators.purchaserName}
-              onChange={(e) => setEvaluators({ ...evaluators, purchaserName: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded border border-slate-200 bg-white text-slate-900 text-xs font-semibold focus:ring-2 focus:ring-blue-600 outline-none shadow-2xs"
-            />
-          </div>
+        {/* 4 Evaluators Signature Upload Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <SignatureUploadBox
+            id="purchaser"
+            roleTitle="เจ้าหน้าที่จัดซื้อ"
+            roleSubtitle="PURCHASER"
+            name={evaluators.purchaserName}
+            onNameChange={(val) => setEvaluators({ ...evaluators, purchaserName: val })}
+            signatureImage={evaluators.purchaserSignature}
+            onSignatureChange={(dataUrl) => setEvaluators({ ...evaluators, purchaserSignature: dataUrl })}
+            placeholderName="ชื่อ-นามสกุล เจ้าหน้าที่จัดซื้อ"
+          />
 
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
-              ประกันคุณภาพ (QA)
-            </label>
-            <input
-              type="text"
-              value={evaluators.qaName}
-              onChange={(e) => setEvaluators({ ...evaluators, qaName: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded border border-slate-200 bg-white text-slate-900 text-xs font-semibold focus:ring-2 focus:ring-blue-600 outline-none shadow-2xs"
-            />
-          </div>
+          <SignatureUploadBox
+            id="qa"
+            roleTitle="ประกันคุณภาพ (QA)"
+            roleSubtitle="QA OFFICER"
+            name={evaluators.qaName}
+            onNameChange={(val) => setEvaluators({ ...evaluators, qaName: val })}
+            signatureImage={evaluators.qaSignature}
+            onSignatureChange={(dataUrl) => setEvaluators({ ...evaluators, qaSignature: dataUrl })}
+            placeholderName="ชื่อ-นามสกุล ฝ่าย QA"
+          />
 
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
-              เจ้าหน้าที่สโตร์
-            </label>
-            <input
-              type="text"
-              value={evaluators.storeOfficerName}
-              onChange={(e) => setEvaluators({ ...evaluators, storeOfficerName: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded border border-slate-200 bg-white text-slate-900 text-xs font-semibold focus:ring-2 focus:ring-blue-600 outline-none shadow-2xs"
-            />
-          </div>
+          <SignatureUploadBox
+            id="store"
+            roleTitle="เจ้าหน้าที่สโตร์"
+            roleSubtitle="STORE OFFICER"
+            name={evaluators.storeOfficerName}
+            onNameChange={(val) => setEvaluators({ ...evaluators, storeOfficerName: val })}
+            signatureImage={evaluators.storeOfficerSignature}
+            onSignatureChange={(dataUrl) => setEvaluators({ ...evaluators, storeOfficerSignature: dataUrl })}
+            placeholderName="ชื่อ-นามสกุล เจ้าหน้าที่สโตร์"
+          />
 
-          <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
-              ผู้จัดการฝ่ายจัดซื้อ
-            </label>
-            <input
-              type="text"
-              value={evaluators.purchasingManagerName}
-              onChange={(e) => setEvaluators({ ...evaluators, purchasingManagerName: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded border border-slate-200 bg-white text-slate-900 text-xs font-semibold focus:ring-2 focus:ring-blue-600 outline-none shadow-2xs"
+          <SignatureUploadBox
+            id="manager"
+            roleTitle="ผู้จัดการฝ่ายจัดซื้อ"
+            roleSubtitle="PURCHASING MGR"
+            name={evaluators.purchasingManagerName}
+            onNameChange={(val) => setEvaluators({ ...evaluators, purchasingManagerName: val })}
+            signatureImage={evaluators.purchasingManagerSignature}
+            onSignatureChange={(dataUrl) => setEvaluators({ ...evaluators, purchasingManagerSignature: dataUrl })}
+            placeholderName="ชื่อ-นามสกุล ผู้จัดการฝ่าย"
+          />
+        </div>
+
+        {/* Optional Supplier Confirm Signature Box */}
+        <div className="pt-2 border-t border-slate-100">
+          <div className="max-w-md">
+            <SignatureUploadBox
+              id="supplier-confirm"
+              roleTitle="การลงนามรับทราบของผู้ขาย (Supplier Confirm)"
+              roleSubtitle="OPTIONAL"
+              name={evaluators.supplierConfirmName || ''}
+              onNameChange={(val) => setEvaluators({ ...evaluators, supplierConfirmName: val })}
+              signatureImage={evaluators.supplierConfirmSignature}
+              onSignatureChange={(dataUrl) => setEvaluators({ ...evaluators, supplierConfirmSignature: dataUrl })}
+              placeholderName="ชื่อ-นามสกุล ตัวแทนผู้ขาย (ถ้ามี)"
             />
           </div>
         </div>
 
         <div className="space-y-1.5 pt-2">
-          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] block">
+          <label className="text-xs font-semibold text-slate-600 block">
             หมายเหตุหรือข้อเสนอแนะเพิ่มเติมสำหรับการประเมิน
           </label>
           <textarea
@@ -836,21 +856,21 @@ export const EvaluationForm: React.FC<Props> = ({
             value={generalNotes}
             onChange={(e) => setGeneralNotes(e.target.value)}
             placeholder="รายละเอียดหรือบันทึกเพิ่มเติมสำหรับรอบนี้..."
-            className="w-full px-4 py-3 rounded border border-slate-200 bg-white text-slate-900 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none shadow-2xs resize-none"
+            className="w-full px-4 py-3 rounded-xl border border-slate-200/90 bg-white text-slate-900 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none shadow-2xs resize-none"
           />
         </div>
       </div>
 
-      {/* Sticky Bottom Bar with Geometric Balance High-Contrast Slate Theme */}
-      <div className="sticky bottom-6 z-40 bg-slate-900 text-white p-5 rounded-xl shadow-2xl border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-5">
+      {/* Sticky Bottom Bar with High-End Dark Palette */}
+      <div className="sticky bottom-6 z-40 bg-slate-900/95 backdrop-blur-md text-white p-4 sm:p-5 rounded-2xl shadow-2xl border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-5">
         {/* Score & Grade Display */}
         <div className="flex items-center space-x-6">
           <div>
-            <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-[0.2em]">
+            <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-widest">
               TOTAL SCORE
             </span>
-            <div className="text-3xl font-mono font-bold text-emerald-400">
-              {totalScore} <span className="text-xs text-slate-500 font-sans">/ 100</span>
+            <div className="text-3xl font-mono font-black text-emerald-400 tracking-tight">
+              {totalScore} <span className="text-xs text-slate-500 font-sans font-normal">/ 100</span>
             </div>
           </div>
 
@@ -858,7 +878,7 @@ export const EvaluationForm: React.FC<Props> = ({
 
           <div className="flex items-center space-x-3.5">
             <div
-              className={`w-12 h-12 rounded flex items-center justify-center text-xl font-bold font-mono border ${
+              className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold font-mono border ${
                 gradeInfo.grade === 'A'
                   ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50'
                   : gradeInfo.grade === 'B'
@@ -877,11 +897,11 @@ export const EvaluationForm: React.FC<Props> = ({
               </div>
               <div className="text-[11px] mt-0.5">
                 {gradeInfo.isPassed ? (
-                  <span className="text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
                     <CheckCircle2 className="w-3.5 h-3.5" /> ผ่านเกณฑ์การประเมิน
                   </span>
                 ) : (
-                  <span className="text-rose-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                  <span className="text-rose-400 font-semibold flex items-center gap-1">
                     <AlertTriangle className="w-3.5 h-3.5" /> ไม่ผ่านเกณฑ์ (ปรับปรุง)
                   </span>
                 )}
@@ -890,12 +910,12 @@ export const EvaluationForm: React.FC<Props> = ({
           </div>
         </div>
 
-        {/* Action Buttons in Geometric Balance Style */}
+        {/* Action Buttons */}
         <div className="flex items-center space-x-3 w-full md:w-auto justify-end">
           <button
             type="button"
             onClick={() => onViewPrintable(currentEvaluationRecord)}
-            className="inline-flex items-center space-x-2 px-4 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-bold uppercase tracking-wider transition border border-slate-700"
+            className="inline-flex items-center space-x-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold tracking-wide transition border border-slate-700 shadow-sm"
           >
             <Printer className="w-4 h-4 text-blue-400" />
             <span>พิมพ์ / PDF (A4)</span>
@@ -905,7 +925,7 @@ export const EvaluationForm: React.FC<Props> = ({
             type="button"
             onClick={handleTriggerSubmit}
             disabled={isSaving}
-            className="flex-1 md:flex-initial bg-blue-600 hover:bg-blue-700 text-white py-3.5 px-6 rounded font-bold text-xs tracking-[0.2em] uppercase transition-all flex items-center justify-center space-x-3 shadow-xl shadow-blue-900/40 disabled:opacity-50"
+            className="flex-1 md:flex-initial bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 px-6 rounded-xl font-bold text-xs tracking-wider uppercase transition-all flex items-center justify-center space-x-2.5 shadow-lg shadow-blue-600/30 disabled:opacity-50"
           >
             {isSaving ? (
               <>
@@ -915,7 +935,7 @@ export const EvaluationForm: React.FC<Props> = ({
             ) : (
               <>
                 <FileSpreadsheet className="w-4 h-4" />
-                <span>SUBMIT & SYNC TO G-SHEET</span>
+                <span>บันทึกและซิงค์ GOOGLE SHEETS</span>
               </>
             )}
           </button>
