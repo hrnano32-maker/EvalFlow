@@ -44,14 +44,15 @@
     width: 100% !important;
   }
 
-  /* Single A4 printable sheet container - calibrated to fill ~98% of printable page */
+  /* Single A4 printable sheet container - natural document flow */
   .a4-print-sheet {
     width: 100% !important;
     max-width: 100% !important;
-    height: 276mm !important;
-    max-height: 276mm !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
     margin: 0 auto !important;
-    padding: 3mm 4.5mm !important;
+    padding: 4mm 5mm !important;
     border: 2px solid #000000 !important;
     background: #ffffff !important;
     box-shadow: none !important;
@@ -59,9 +60,7 @@
     page-break-before: avoid !important;
     page-break-after: avoid !important;
     box-sizing: border-box !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
+    display: block !important;
   }
 
   table {
